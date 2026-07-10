@@ -620,23 +620,22 @@ def render_support_box(location: str = "main") -> None:
         qr_cols = st.columns(min(2, len(existing_qrs)))
         for idx, (name, path) in enumerate(existing_qrs.items()):
             with qr_cols[idx % len(qr_cols)]:
-                st.image(str(path), caption=name, use_container_width=True)
+                st.image(str(path), caption=name, width=160)
 
     if not active_links and not existing_qrs:
         st.info("打赏入口尚未配置。可在 assets/ 放入 wechat_reward.png、alipay_reward.png，或在 publish_app.py 填入爱发电 / Buy Me a Coffee 链接。")
 
 
 def render_feedback() -> None:
-    """Embed a public feedback form, or show setup instructions when missing."""
+    """Show a feedback link without embedding Google account information."""
     st.subheader("留言反馈")
     st.caption("欢迎留下问题、建议、数据口径反馈或合作线索。")
 
     if FEEDBACK_FORM_URL:
-        components.iframe(FEEDBACK_FORM_URL, height=760, scrolling=True)
+        st.link_button("打开反馈表单", FEEDBACK_FORM_URL, use_container_width=True)
+        st.caption("反馈表单会在 Google Forms 页面打开；发布页不会嵌入或显示你的 Google 登录邮箱。")
     else:
         st.info("留言表单尚未配置。创建 Google Form、腾讯问卷或飞书表单后，把公开填写链接填入 publish_app.py 的 FEEDBACK_FORM_URL。")
-
-    render_support_box(location="feedback_tab")
 
 
 def main() -> None:
