@@ -8,13 +8,37 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 APP_DIR = Path(__file__).resolve().parent
+GA_MEASUREMENT_ID = "G-9VW3TM6793"
 DATA_DIR_CANDIDATES = [
     APP_DIR / "daily_data",
     APP_DIR.parent / "daily_data",
 ]
+
+
+def inject_google_analytics(measurement_id: str) -> None:
+    """Inject GA4 tracking for the read-only published dashboard."""
+    if not measurement_id:
+        return
+    components.html(
+        f"""
+        <script async src="https://www.googletagmanager.com/gtag/js?id={measurement_id}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){{dataLayer.push(arguments);}}
+          gtag('js', new Date());
+          gtag('config', '{measurement_id}', {{
+            page_title: 'Option Wall Published Dashboard',
+            page_path: window.parent ? window.parent.location.pathname : window.location.pathname
+          }});
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
 
 
 def find_daily_data_dir() -> Path:
@@ -464,8 +488,10 @@ def render_comparison(exports: dict[str, object]) -> None:
 def main() -> None:
     """Streamlit 入口。"""
     st.set_page_config(page_title="Option Wall Published Dashboard", layout="wide")
+    inject_google_analytics(GA_MEASUREMENT_ID)
     st.title("Option Wall Published Dashboard")
     st.caption("只读发布版：仅展示 daily_data 中已导出的结果，不上传文件、不读取 Access、不重新计算。")
+    st.sidebar.caption(f"GA4 tracking: {GA_MEASUREMENT_ID}")
 
     data_dir_text = st.sidebar.text_input("daily_data 目录", value=str(DAILY_DATA_DIR))
     data_dir = Path(data_dir_text)
