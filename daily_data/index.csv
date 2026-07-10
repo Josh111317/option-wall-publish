@@ -1,0 +1,18 @@
+﻿run_id,saved_at,trade_date,data_mode,calc_mode,file_name,output_path,rows,columns,parse_error_count,unavailable_gamma_count
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,etf_gamma_by_strike.csv,D:\codex\options\daily_data\etf_gamma_by_strike_20260709.csv,559,19,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,commodity_wall_by_strike.csv,D:\codex\options\daily_data\commodity_wall_by_strike_20260709.csv,12755,15,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,daily_wall_summary.csv,D:\codex\options\daily_data\daily_wall_summary_20260709.csv,434,27,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,wall_features.csv,D:\codex\options\daily_data\wall_features_20260709.csv,434,28,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,spot_price_cleaned.csv,D:\codex\options\daily_data\spot_price_cleaned_20260709.csv,9,12,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,clean_etf_options.csv,D:\codex\options\daily_data\clean_etf_options_20260709.csv,1118,35,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,clean_commodity_options.csv,D:\codex\options\daily_data\clean_commodity_options_20260709.csv,25560,30,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,key_level_table.csv,D:\codex\options\daily_data\key_level_table_20260709.csv,434,22,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,gamma_audit_table.csv,D:\codex\options\daily_data\gamma_audit_table_20260709.csv,36,12,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,key_strike_context.csv,D:\codex\options\daily_data\key_strike_context_20260709.csv,333,24,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,wall_confidence.csv,D:\codex\options\daily_data\wall_confidence_20260709.csv,108,14,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,spot_position_features.csv,D:\codex\options\daily_data\spot_position_features_20260709.csv,36,20,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,data_quality_report.csv,D:\codex\options\daily_data\data_quality_report_20260709.csv,4,5,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,etf_quality_by_underlying.csv,D:\codex\options\daily_data\etf_quality_by_underlying_20260709.csv,9,11,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,comparison_table.csv,D:\codex\options\daily_data\comparison_table_20260709.csv,36,21,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,market_structure_report.txt,D:\codex\options\daily_data\market_structure_report_20260709.txt,124,1,0,0
+c6e71cdf8a124c529015c880bb6a5338,2026-07-09 19:24:34,2026-07-09,上传文件模式,单日模式,range_structure_report.txt,D:\codex\options\daily_data\range_structure_report_20260709.txt,3,1,0,0
