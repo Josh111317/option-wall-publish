@@ -654,14 +654,13 @@ def render_support_box(location: str = "main") -> None:
 
 
 def render_feedback() -> None:
-    """Show a feedback link without embedding Google account information."""
+    """Show the configured feedback form inside the published dashboard."""
     st.subheader("留言反馈")
     st.caption("欢迎留下问题、建议、数据口径反馈或合作线索。")
 
     if FEEDBACK_FORM_URL:
-        st.link_button("打开腾讯问卷反馈表", FEEDBACK_FORM_URL, use_container_width=True)
-        st.caption("反馈表会在腾讯问卷页面打开，适合国内访问。发布页不会收集登录邮箱。")
-        st.caption("如果后续更换问卷工具，只需要替换 publish_app.py 中的 FEEDBACK_FORM_URL。")
+        components.iframe(FEEDBACK_FORM_URL, height=760, scrolling=True)
+        st.link_button("在新窗口打开反馈表", FEEDBACK_FORM_URL, use_container_width=True)
     else:
         st.info("留言表单尚未配置。创建 Google Form、腾讯问卷或飞书表单后，把公开填写链接填入 publish_app.py 的 FEEDBACK_FORM_URL。")
 
