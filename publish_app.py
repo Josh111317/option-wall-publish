@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 from datetime import date
 from pathlib import Path
 
@@ -155,6 +156,14 @@ def emit_pending_ga_event() -> None:
     event = st.session_state.pop("pending_ga_event", None)
     if isinstance(event, dict):
         inject_ga_event(str(event.get("event_name", "")), event.get("params", {}))
+
+
+def image_to_data_uri(path: Path) -> str:
+    """Convert a local PNG image to a browser-friendly data URI."""
+    if not path.exists():
+        return ""
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
 
 
 def find_daily_data_dir() -> Path:
@@ -617,10 +626,28 @@ def render_support_box(location: str = "main") -> None:
                 st.link_button(name, url, use_container_width=True)
 
     if existing_qrs:
-        qr_cols = st.columns(min(2, len(existing_qrs)))
-        for idx, (name, path) in enumerate(existing_qrs.items()):
-            with qr_cols[idx % len(qr_cols)]:
-                st.image(str(path), caption=name, width=160)
+        cards = []
+        for name, path in existing_qrs.items():
+            data_uri = image_to_data_uri(path)
+            if not data_uri:
+                continue
+            cards.append(
+                f"""
+                <div style="width: 176px; text-align: center;">
+                  <img src="{data_uri}" alt="{name}" style="width: 160px; height: 160px; object-fit: contain; border-radius: 8px; background: #fff; padding: 6px;" />
+                  <div style="font-size: 13px; color: #b8c0cc; margin-top: 6px;">{name}</div>
+                </div>
+                """
+            )
+        if cards:
+            st.markdown(
+                f"""
+                <div style="display: flex; gap: 18px; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; margin: 8px 0 12px 0;">
+                    {''.join(cards)}
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
     if not active_links and not existing_qrs:
         st.info("打赏入口尚未配置。可在 assets/ 放入 wechat_reward.png、alipay_reward.png，或在 publish_app.py 填入爱发电 / Buy Me a Coffee 链接。")
@@ -633,7 +660,8 @@ def render_feedback() -> None:
 
     if FEEDBACK_FORM_URL:
         st.link_button("打开反馈表单", FEEDBACK_FORM_URL, use_container_width=True)
-        st.caption("反馈表单会在 Google Forms 页面打开；发布页不会嵌入或显示你的 Google 登录邮箱。")
+        st.caption("反馈表单会在第三方页面打开。若使用 Google Forms，请关闭“收集电子邮件地址”和“限制每人填写一次”，否则登录用户可能看到自己的邮箱。")
+        st.caption("如果希望更适合国内访问，可以改用腾讯问卷、问卷星、金数据或飞书表单，拿到公开填写链接后填入 FEEDBACK_FORM_URL。")
     else:
         st.info("留言表单尚未配置。创建 Google Form、腾讯问卷或飞书表单后，把公开填写链接填入 publish_app.py 的 FEEDBACK_FORM_URL。")
 
