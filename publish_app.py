@@ -29,10 +29,23 @@ def inject_google_analytics(measurement_id: str) -> None:
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){{dataLayer.push(arguments);}}
+          let pagePath = window.location.pathname || '/';
+          try {{
+            if (window.parent && window.parent.location && window.parent.location.pathname) {{
+              pagePath = window.parent.location.pathname;
+            }}
+          }} catch (error) {{
+            pagePath = window.location.pathname || '/';
+          }}
           gtag('js', new Date());
           gtag('config', '{measurement_id}', {{
             page_title: 'Option Wall Published Dashboard',
-            page_path: window.parent ? window.parent.location.pathname : window.location.pathname
+            page_path: pagePath,
+            send_page_view: true
+          }});
+          gtag('event', 'page_view', {{
+            page_title: 'Option Wall Published Dashboard',
+            page_path: pagePath
           }});
         </script>
         """,
