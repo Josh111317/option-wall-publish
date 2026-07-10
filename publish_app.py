@@ -13,7 +13,7 @@ import streamlit.components.v1 as components
 
 APP_DIR = Path(__file__).resolve().parent
 GA_MEASUREMENT_ID = "G-9VW3TM6793"
-FEEDBACK_FORM_URL = ""
+FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdS1nn2oxVNbDS--OsjKUBnZ0SbAZTrm-RTu5sVOpv1JbkYiA/viewform?usp=sf_link"
 DONATION_LINKS = {
     "爱发电": "",
     "Buy Me a Coffee": "",
