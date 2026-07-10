@@ -13,6 +13,15 @@ import streamlit.components.v1 as components
 
 APP_DIR = Path(__file__).resolve().parent
 GA_MEASUREMENT_ID = "G-9VW3TM6793"
+FEEDBACK_FORM_URL = ""
+DONATION_LINKS = {
+    "爱发电": "",
+    "Buy Me a Coffee": "",
+}
+DONATION_QR_FILES = {
+    "微信打赏": APP_DIR / "assets" / "wechat_reward.png",
+    "支付宝打赏": APP_DIR / "assets" / "alipay_reward.png",
+}
 DATA_DIR_CANDIDATES = [
     APP_DIR / "daily_data",
     APP_DIR.parent / "daily_data",
@@ -52,6 +61,100 @@ def inject_google_analytics(measurement_id: str) -> None:
         height=0,
         width=0,
     )
+
+
+def inject_ga_event(event_name: str, params: dict[str, object] | None = None) -> None:
+    """Send a lightweight GA4 custom event from a Streamlit component iframe."""
+    if not GA_MEASUREMENT_ID:
+        return
+    params = params or {}
+    safe_params = {
+        str(key): "" if value is None else str(value)
+        for key, value in params.items()
+    }
+    params_lines = ",\n".join(
+        f"{key!r}: {value!r}" for key, value in safe_params.items()
+    )
+    components.html(
+        f"""
+        <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){{dataLayer.push(arguments);}}
+          gtag('js', new Date());
+          gtag('config', '{GA_MEASUREMENT_ID}', {{ send_page_view: false }});
+          gtag('event', '{event_name}', {{
+            {params_lines}
+          }});
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
+def inject_tab_click_tracking() -> None:
+    """Track Streamlit tab clicks in GA4 without changing the visual layout."""
+    if not GA_MEASUREMENT_ID:
+        return
+    components.html(
+        f"""
+        <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){{dataLayer.push(arguments);}}
+          gtag('js', new Date());
+          gtag('config', '{GA_MEASUREMENT_ID}', {{ send_page_view: false }});
+
+          function bindTabTracking() {{
+            let doc = null;
+            try {{
+              doc = window.parent.document;
+            }} catch (error) {{
+              return;
+            }}
+            const tabs = doc.querySelectorAll('button[role="tab"]');
+            tabs.forEach((tab) => {{
+              if (tab.dataset.gaBound === '1') {{
+                return;
+              }}
+              tab.dataset.gaBound = '1';
+              tab.addEventListener('click', () => {{
+                const label = (tab.innerText || tab.textContent || '').trim();
+                if (label) {{
+                  gtag('event', 'view_tab', {{
+                    tab_name: label,
+                    app_name: 'option_wall_publish'
+                  }});
+                }}
+              }});
+            }});
+          }}
+          setTimeout(bindTabTracking, 1000);
+          setTimeout(bindTabTracking, 2500);
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
+def track_download_click(file_name: str, trade_date_text: str) -> None:
+    """Store a download event so the next Streamlit run can emit it to GA4."""
+    st.session_state["pending_ga_event"] = {
+        "event_name": "download_result_file",
+        "params": {
+            "file_name": file_name,
+            "trade_date": trade_date_text,
+        },
+    }
+
+
+def emit_pending_ga_event() -> None:
+    """Emit and clear one pending GA event from a widget callback."""
+    event = st.session_state.pop("pending_ga_event", None)
+    if isinstance(event, dict):
+        inject_ga_event(str(event.get("event_name", "")), event.get("params", {}))
 
 
 def find_daily_data_dir() -> Path:
@@ -353,7 +456,8 @@ def show_downloads(exports: dict[str, object], trade_date_value) -> None:
                     file_name=dated_name(name, trade_date_value),
                     mime=mime,
                     key=f"publish_download_{name}",
-                    on_click="ignore",
+                    on_click=track_download_click,
+                    args=(name, str(trade_date_value)),
                 )
             else:
                 st.button(f"缺失 {name}", disabled=True, key=f"missing_{name}")
@@ -498,10 +602,48 @@ def render_comparison(exports: dict[str, object]) -> None:
     st.dataframe(etf[[col for col in display_cols if col in etf.columns]], use_container_width=True, hide_index=True)
 
 
+def render_support_box(location: str = "main") -> None:
+    """Show voluntary support links and QR images if they are configured."""
+    st.markdown("#### 支持项目")
+    st.caption("结果文件可以免费下载。如果这个面板对你有帮助，可以自愿打赏支持维护；这不是强制付费。")
+
+    active_links = {name: url for name, url in DONATION_LINKS.items() if url}
+    existing_qrs = {name: path for name, path in DONATION_QR_FILES.items() if path.exists()}
+
+    if active_links:
+        link_cols = st.columns(min(3, len(active_links)))
+        for idx, (name, url) in enumerate(active_links.items()):
+            with link_cols[idx % len(link_cols)]:
+                st.link_button(name, url, use_container_width=True)
+
+    if existing_qrs:
+        qr_cols = st.columns(min(2, len(existing_qrs)))
+        for idx, (name, path) in enumerate(existing_qrs.items()):
+            with qr_cols[idx % len(qr_cols)]:
+                st.image(str(path), caption=name, use_container_width=True)
+
+    if not active_links and not existing_qrs:
+        st.info("打赏入口尚未配置。可在 assets/ 放入 wechat_reward.png、alipay_reward.png，或在 publish_app.py 填入爱发电 / Buy Me a Coffee 链接。")
+
+
+def render_feedback() -> None:
+    """Embed a public feedback form, or show setup instructions when missing."""
+    st.subheader("留言反馈")
+    st.caption("欢迎留下问题、建议、数据口径反馈或合作线索。")
+
+    if FEEDBACK_FORM_URL:
+        components.iframe(FEEDBACK_FORM_URL, height=760, scrolling=True)
+    else:
+        st.info("留言表单尚未配置。创建 Google Form、腾讯问卷或飞书表单后，把公开填写链接填入 publish_app.py 的 FEEDBACK_FORM_URL。")
+
+    render_support_box(location="feedback_tab")
+
+
 def main() -> None:
     """Streamlit 入口。"""
     st.set_page_config(page_title="Option Wall Published Dashboard", layout="wide")
     inject_google_analytics(GA_MEASUREMENT_ID)
+    emit_pending_ga_event()
     st.title("Option Wall Published Dashboard")
     st.caption("只读发布版：仅展示 daily_data 中已导出的结果，不上传文件、不读取 Access、不重新计算。")
     st.sidebar.caption(f"GA4 tracking: {GA_MEASUREMENT_ID}")
@@ -516,6 +658,9 @@ def main() -> None:
 
     default_date = dates[-1]
     selected_date = st.sidebar.selectbox("选择发布日期", dates, index=len(dates) - 1, format_func=lambda value: str(value))
+    if st.session_state.get("last_tracked_trade_date") != str(selected_date):
+        inject_ga_event("select_trade_date", {"trade_date": str(selected_date)})
+        st.session_state["last_tracked_trade_date"] = str(selected_date)
     exports = load_exports(data_dir, selected_date)
     report_text = exports.get("market_structure_report.txt", "")
 
@@ -526,11 +671,13 @@ def main() -> None:
         if not latest_index.empty:
             st.sidebar.dataframe(latest_index[["file_name", "rows", "saved_at"]].tail(30), use_container_width=True, hide_index=True)
 
-    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_download = st.tabs([
+    inject_tab_click_tracking()
+    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_feedback, tab_download = st.tabs([
         "今日总览",
         "ETF Gamma Wall",
         "结构分析",
         "多标的对比",
+        "留言反馈",
         "下载结果",
     ])
     with tab_overview:
@@ -541,7 +688,10 @@ def main() -> None:
         render_structure_tabs(exports)
     with tab_comparison:
         render_comparison(exports)
+    with tab_feedback:
+        render_feedback()
     with tab_download:
+        render_support_box(location="download_tab")
         show_downloads(exports, selected_date)
         if not index.empty:
             st.markdown("#### daily_data/index.csv")
