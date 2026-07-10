@@ -672,10 +672,8 @@ def main() -> None:
     emit_pending_ga_event()
     st.title("Option Wall Published Dashboard")
     st.caption("只读发布版：仅展示 daily_data 中已导出的结果，不上传文件、不读取 Access、不重新计算。")
-    st.sidebar.caption(f"GA4 tracking: {GA_MEASUREMENT_ID}")
 
-    data_dir_text = st.sidebar.text_input("daily_data 目录", value=str(DAILY_DATA_DIR))
-    data_dir = Path(data_dir_text)
+    data_dir = DAILY_DATA_DIR
     index = load_index(str(data_dir))
     dates = available_dates(index, data_dir)
     if not dates:
@@ -691,20 +689,19 @@ def main() -> None:
     report_text = exports.get("market_structure_report.txt", "")
 
     st.sidebar.success(f"当前展示日期: {selected_date}")
-    st.sidebar.caption(f"数据目录: {data_dir}")
     if not index.empty:
         latest_index = index[pd.to_datetime(index["trade_date"], errors="coerce").dt.date.eq(selected_date)].copy()
         if not latest_index.empty:
             st.sidebar.dataframe(latest_index[["file_name", "rows", "saved_at"]].tail(30), use_container_width=True, hide_index=True)
 
     inject_tab_click_tracking()
-    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_feedback, tab_download = st.tabs([
+    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_download, tab_feedback = st.tabs([
         "今日总览",
         "ETF Gamma Wall",
         "结构分析",
         "多标的对比",
-        "留言反馈",
         "下载结果",
+        "留言反馈",
     ])
     with tab_overview:
         render_overview(exports, str(report_text or ""))
@@ -714,14 +711,14 @@ def main() -> None:
         render_structure_tabs(exports)
     with tab_comparison:
         render_comparison(exports)
-    with tab_feedback:
-        render_feedback()
     with tab_download:
         render_support_box(location="download_tab")
         show_downloads(exports, selected_date)
         if not index.empty:
             st.markdown("#### daily_data/index.csv")
             st.dataframe(index, use_container_width=True)
+    with tab_feedback:
+        render_feedback()
 
 
 if __name__ == "__main__":
