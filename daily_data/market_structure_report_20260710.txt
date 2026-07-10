@@ -1,0 +1,96 @@
+﻿市场结构分析报告
+
+1. Gamma Regime 解读框架
+- net_gex > 0：按当前 OI-GEX 口径，市场显示正 Gamma 结构，结构上倾向于压制波动，价格更容易围绕关键价位震荡。
+- net_gex < 0：按当前 OI-GEX 口径，市场显示负 Gamma 结构，结构上倾向于放大波动，突破关键位后更容易加速。
+- net_gex 接近 0：Gamma 中性区，方向约束较弱，更需要结合价格、成交和墙位变化确认。
+- 当前 Positive Gamma 占比为 91.67%，Negative Gamma 占比为 8.33%，Neutral / Unavailable 占比为 0.00%。
+
+2. 近月合约与关键墙位
+- 近月合约选择为 7月。
+- 上证50ETF华夏: 现价 3.0570, Call Wall 3.1000, Put Wall 3.0000, Price Wall 3.1000, price_wall_distance 1.41%，价格墙位于现价上方。
+- 中证500ETF南方: 现价 8.6980, Call Wall 8.7500, Put Wall 8.7500, Price Wall 8.7500, price_wall_distance 0.60%，价格墙位于现价上方。
+- 中证500ETF嘉实: 现价 3.4550, Call Wall 3.5000, Put Wall 3.4000, Price Wall 3.6000, price_wall_distance 4.20%，价格墙位于现价上方。
+- 创业板ETF易方达: 现价 3.8620, Call Wall 4.0000, Put Wall 3.7000, Price Wall 4.0000, price_wall_distance 3.57%，价格墙位于现价上方。
+- 沪深300ETF华泰柏瑞: 现价 4.8290, Call Wall 4.9000, Put Wall 4.9000, Price Wall 4.9000, price_wall_distance 1.47%，价格墙位于现价上方。
+- 沪深300ETF嘉实: 现价 5.0380, Call Wall 5.2500, Put Wall 5.0000, Price Wall 5.2500, price_wall_distance 4.21%，价格墙位于现价上方。
+- 深证100ETF易方达: 现价 3.8410, Call Wall 4.0000, Put Wall 3.8000, Price Wall 4.0000, price_wall_distance 4.14%，价格墙位于现价上方。
+- 科创50ETF华夏: 现价 2.2090, Call Wall 2.3000, Put Wall 2.1500, Price Wall 2.2000, price_wall_distance -0.41%，价格墙位于现价下方。
+- 科创50ETF易方达: 现价 2.1410, Call Wall 2.2000, Put Wall 1.9500, Price Wall 2.1000, price_wall_distance -1.91%，价格墙位于现价下方。
+- Call Wall 可理解为上方压力区或磁吸位，价格接近该区域时需要观察 GEX 是否继续扩张。
+- Put Wall 可理解为下方支撑区或风险释放位，跌破后是否放大波动取决于 Gamma Regime 和成交确认。
+
+3. 远月合约结构
+- 远月合约选择为 12月。
+- 上证50ETF华夏: call_wall_distance -1.86%, put_wall_distance -8.41%，远月结构显示偏上方压力更近。
+- 中证500ETF南方: call_wall_distance -2.28%, put_wall_distance 14.97%，远月结构显示偏上方压力更近。
+- 中证500ETF嘉实: call_wall_distance 1.30%, put_wall_distance -7.38%，远月结构显示偏上方压力更近。
+- 创业板ETF易方达: call_wall_distance 16.52%, put_wall_distance -17.14%，远月结构显示偏上方压力更近。
+- 沪深300ETF华泰柏瑞: call_wall_distance 3.54%, put_wall_distance -6.81%，远月结构显示偏上方压力更近。
+- 沪深300ETF嘉实: call_wall_distance 4.21%, put_wall_distance -8.69%，远月结构显示偏上方压力更近。
+- 深证100ETF易方达: call_wall_distance 17.16%, put_wall_distance 17.16%，远月结构显示偏下方压力更近。
+- 科创50ETF华夏: call_wall_distance 15.44%, put_wall_distance -41.15%，远月结构显示偏上方压力更近。
+- 科创50ETF易方达: call_wall_distance 0.42%, put_wall_distance 0.42%，远月结构显示偏下方压力更近。
+
+4. Gamma Flip 与 Expected Move
+- 当前 daily summary 未提供 Gamma Flip 字段；可在 Gamma Detail 页查看累计 GEX Flip。
+- 当前 daily summary 未提供 Expected Move；可在 Gamma Detail 页基于 ATM IV 查看下一交易日预期波动区间。
+
+5. 现价位置与关键状态切换
+- 上证50ETF华夏 12月: 现价距离最近关键位 gex_flip 约 1.41%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_call_wall_and_gex_flip。
+- 上证50ETF华夏 7月: 现价距离最近关键位 call_wall 约 1.41%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 上证50ETF华夏 8月: 现价距离最近关键位 call_wall 约 1.41%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 上证50ETF华夏 9月: 现价距离最近关键位 call_wall 约 1.41%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 中证500ETF南方 12月: 现价距离最近关键位 call_wall 约 -2.28%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_put_wall。
+- 中证500ETF南方 7月: 现价距离最近关键位 call_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_call_wall。
+- 中证500ETF南方 8月: 现价距离最近关键位 put_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_price_wall。
+- 中证500ETF南方 9月: 现价距离最近关键位 price_wall 约 -2.28%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_call_wall。
+- 中证500ETF嘉实 12月: 现价距离最近关键位 call_wall 约 1.30%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 中证500ETF嘉实 7月: 现价距离最近关键位 call_wall 约 1.30%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 中证500ETF嘉实 8月: 现价距离最近关键位 call_wall 约 1.30%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_gex_flip_and_call_wall。
+- 中证500ETF嘉实 9月: 现价距离最近关键位 price_wall 约 4.20%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_price_wall。
+- 创业板ETF易方达 12月: 现价距离最近关键位 price_wall 约 0.98%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_price_wall。
+- 创业板ETF易方达 7月: 现价距离最近关键位 call_wall 约 3.57%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 创业板ETF易方达 8月: 现价距离最近关键位 call_wall 约 3.57%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 创业板ETF易方达 9月: 现价距离最近关键位 call_wall 约 0.98%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Negative Gamma，若脱离关键位，波动放大风险更高。 位置带为 between_put_wall_and_call_wall。
+- 沪深300ETF华泰柏瑞 12月: 现价距离最近关键位 gex_flip 约 1.47%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_gex_flip。
+- 沪深300ETF华泰柏瑞 7月: 现价距离最近关键位 call_wall 约 1.47%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_call_wall。
+- 沪深300ETF华泰柏瑞 8月: 现价距离最近关键位 put_wall 约 -2.67%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 沪深300ETF华泰柏瑞 9月: 现价距离最近关键位 price_wall 约 3.54%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_price_wall。
+- 沪深300ETF嘉实 12月: 现价距离最近关键位 call_wall 约 4.21%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 沪深300ETF嘉实 7月: 现价距离最近关键位 put_wall 约 -0.75%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 沪深300ETF嘉实 8月: 现价距离最近关键位 call_wall 约 -0.75%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_gex_flip。
+- 沪深300ETF嘉实 9月: 现价距离最近关键位 call_wall 约 4.21%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_call_wall。
+- 深证100ETF易方达 12月: 现价距离最近关键位 price_wall 约 4.14%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_price_wall。
+- 深证100ETF易方达 7月: 现价距离最近关键位 put_wall 约 -1.07%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_call_wall。
+- 深证100ETF易方达 8月: 现价距离最近关键位 put_wall 约 -1.07%，该关键位在现价下方。 当前为 Negative Gamma，若脱离关键位，波动放大风险更高。 位置带为 between_put_wall_and_call_wall。
+- 深证100ETF易方达 9月: 现价距离最近关键位 price_wall 约 4.14%，该关键位在现价上方。 当前为 Negative Gamma，若脱离关键位，波动放大风险更高。 位置带为 between_put_wall_and_price_wall。
+- 科创50ETF华夏 12月: 现价距离最近关键位 price_wall 约 -0.41%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_gex_flip。
+- 科创50ETF华夏 7月: 现价距离最近关键位 price_wall 约 -0.41%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_call_wall。
+- 科创50ETF华夏 8月: 现价距离最近关键位 price_wall 约 -0.41%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_gex_flip。
+- 科创50ETF华夏 9月: 现价距离最近关键位 price_wall 约 -0.41%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_gex_flip。
+- 科创50ETF易方达 12月: 现价距离最近关键位 call_wall 约 0.42%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 below_all_key_levels_next_call_wall。
+- 科创50ETF易方达 7月: 现价距离最近关键位 price_wall 约 -1.91%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_call_wall。
+- 科创50ETF易方达 8月: 现价距离最近关键位 price_wall 约 -1.91%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_price_wall_and_gex_flip。
+- 科创50ETF易方达 9月: 现价距离最近关键位 price_wall 约 0.42%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置带为 between_put_wall_and_price_wall。
+- 如果现价穿越 Gamma Flip，结构上可能发生 Positive Gamma / Negative Gamma 的波动状态切换，需要结合成交和 GEX 收缩确认。
+
+6. 墙位可信度
+- 高可信墙位: 上证50ETF华夏 7月(0.76)、上证50ETF华夏 7月(0.73)、沪深300ETF嘉实 7月(0.72)
+- 低可信墙位: 中证500ETF嘉实 12月(0.32)、沪深300ETF华泰柏瑞 12月(0.35)、深证100ETF易方达 12月(0.36)、深证100ETF易方达 12月(0.36)、沪深300ETF华泰柏瑞 9月(0.36)、科创50ETF易方达 7月(0.36)、创业板ETF易方达 8月(0.36)、创业板ETF易方达 7月(0.37)
+- 可信度综合考虑 GEX 集中度、OI 配合、成交确认和距离现价远近；低可信墙位更适合作为观察位，而不是强支撑/阻力假设。
+
+7. 分价位结构观察
+- 现价附近 GEX 最集中的价位: 中证500ETF南方 7月 8.75(call_wall,put_wall,price_wall,max_gamma)、上证50ETF华夏 7月 3.1(call_wall,call_oi_wall,price_wall,max_gamma,gamma_flip)、沪深300ETF华泰柏瑞 7月 4.9(call_wall,put_wall,put_oi_wall,price_wall,max_gamma)、中证500ETF南方 7月 8.5(普通价位)、上证50ETF华夏 7月 3.0(put_wall,put_oi_wall)、沪深300ETF华泰柏瑞 7月 4.8(普通价位)、沪深300ETF华泰柏瑞 7月 4.7(普通价位)、创业板ETF易方达 7月 3.9(普通价位)
+- 现价附近 OI 最集中的价位: 上证50ETF华夏 7月 3.1(call_wall,call_oi_wall,price_wall,max_gamma,gamma_flip)、上证50ETF华夏 7月 3.0(put_wall,put_oi_wall)、中证500ETF南方 7月 8.75(call_wall,put_wall,price_wall,max_gamma)、沪深300ETF华泰柏瑞 7月 4.9(call_wall,put_wall,put_oi_wall,price_wall,max_gamma)、科创50ETF华夏 7月 2.15(put_wall)、科创50ETF华夏 7月 2.2(price_wall,max_gamma)、创业板ETF易方达 7月 3.9(普通价位)、中证500ETF南方 7月 8.5(普通价位)
+- 当 GEX、OI、成交在同一 strike 附近共同集中时，该价位更适合作为关键观察区；若只有单项突出，可靠性需要打折。
+
+8. 方向性结构判断
+- 当前为单日数据，尚未形成区间变化因子，方向性结构评分暂以中性处理。
+- 报告中的偏多/偏空仅描述结构倾向，不代表必然上涨或下跌。
+
+9. 风险提示与失效条件
+- Negative Gamma 结构出现时，波动放大风险需要关注。
+- 部分 price_wall_distance 绝对值小于 1%，价格可能受到墙位吸附。
+- 如果 price_wall 反向移动、net_gex 收缩、gamma_regime 转为 Negative Gamma，原有结构判断可能失效。
+- 本报告仅为期权结构分析，不构成交易建议。
