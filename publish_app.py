@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import base64
+import json
+import uuid
 from datetime import date
 from pathlib import Path
+from urllib import request
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -23,10 +26,64 @@ DONATION_QR_FILES = {
     "微信打赏": APP_DIR / "assets" / "wechat_reward.png",
     "支付宝打赏": APP_DIR / "assets" / "alipay_reward.png",
 }
+GA_API_SECRET = ""
 DATA_DIR_CANDIDATES = [
     APP_DIR / "daily_data",
     APP_DIR.parent / "daily_data",
 ]
+
+
+def get_ga_api_secret() -> str:
+    """Read GA4 Measurement Protocol api_secret from Streamlit secrets."""
+    if GA_API_SECRET:
+        return GA_API_SECRET
+    try:
+        return str(st.secrets.get("GA_API_SECRET", "")).strip()
+    except Exception:
+        return ""
+
+
+def get_ga_client_id() -> str:
+    """Keep one anonymous GA client id for the current Streamlit browser session."""
+    if "ga_client_id" not in st.session_state:
+        st.session_state["ga_client_id"] = str(uuid.uuid4())
+    return str(st.session_state["ga_client_id"])
+
+
+def send_ga_server_event(event_name: str, params: dict[str, object] | None = None) -> bool:
+    """Send a GA4 event through Measurement Protocol when api_secret is configured."""
+    api_secret = get_ga_api_secret()
+    if not GA_MEASUREMENT_ID or not api_secret or not event_name:
+        return False
+    safe_params = {
+        str(key): "" if value is None else str(value)
+        for key, value in (params or {}).items()
+    }
+    payload = {
+        "client_id": get_ga_client_id(),
+        "events": [
+            {
+                "name": event_name,
+                "params": safe_params,
+            }
+        ],
+    }
+    url = (
+        "https://www.google-analytics.com/mp/collect"
+        f"?measurement_id={GA_MEASUREMENT_ID}&api_secret={api_secret}"
+    )
+    try:
+        body = json.dumps(payload).encode("utf-8")
+        req = request.Request(
+            url,
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with request.urlopen(req, timeout=3) as response:
+            return 200 <= response.status < 300
+    except Exception:
+        return False
 
 
 def inject_google_analytics(measurement_id: str) -> None:
@@ -66,6 +123,7 @@ def inject_google_analytics(measurement_id: str) -> None:
 
 def inject_ga_event(event_name: str, params: dict[str, object] | None = None) -> None:
     """Send a lightweight GA4 custom event from a Streamlit component iframe."""
+    send_ga_server_event(event_name, params)
     if not GA_MEASUREMENT_ID:
         return
     params = params or {}
@@ -156,6 +214,20 @@ def emit_pending_ga_event() -> None:
     event = st.session_state.pop("pending_ga_event", None)
     if isinstance(event, dict):
         inject_ga_event(str(event.get("event_name", "")), event.get("params", {}))
+
+
+def emit_page_view_once() -> None:
+    """Emit one server-side page_view event for the current Streamlit session."""
+    if st.session_state.get("ga_page_view_sent"):
+        return
+    inject_ga_event(
+        "page_view",
+        {
+            "page_title": "Option Wall Published Dashboard",
+            "app_name": "option_wall_publish",
+        },
+    )
+    st.session_state["ga_page_view_sent"] = True
 
 
 def image_to_data_uri(path: Path) -> str:
@@ -670,6 +742,7 @@ def main() -> None:
     st.set_page_config(page_title="Option Wall Published Dashboard", layout="wide")
     inject_google_analytics(GA_MEASUREMENT_ID)
     emit_pending_ga_event()
+    emit_page_view_once()
     st.title("Option Wall Published Dashboard")
     st.caption("只读发布版：仅展示 daily_data 中已导出的结果，不上传文件、不读取 Access、不重新计算。")
 

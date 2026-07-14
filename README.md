@@ -81,6 +81,14 @@ G-9VW3TM6793
 - Tab 点击事件：`view_tab`
 - 下载事件：`download_result_file`
 
+Streamlit Cloud 线上部署需要在 App secrets 中配置：
+
+```toml
+GA_API_SECRET = "你的 GA4 Measurement Protocol api_secret"
+```
+
+不要把 `GA_API_SECRET` 写入 GitHub 仓库。
+
 ## 留言反馈
 
 默认预留了 Google Form / 腾讯问卷 / 飞书表单嵌入位。
