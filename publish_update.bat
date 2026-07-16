@@ -17,7 +17,36 @@ if errorlevel 1 goto NOT_REPO
 
 if not exist daily_data\index.csv goto NO_DATA
 
-git add daily_data publish_app.py requirements.txt README.md start_publish_dashboard.bat publish_update.bat
+echo [INFO] Publishing lightweight public result files only.
+echo [INFO] Large raw clean_*.csv and commodity_wall_by_strike_*.csv files stay local.
+
+git rm --cached --ignore-unmatch daily_data\clean_*.csv daily_data\commodity_wall_by_strike_*.csv >nul 2>nul
+
+git add publish_app.py requirements.txt README.md start_publish_dashboard.bat publish_update.bat .gitignore posts
+git add daily_data\index.csv
+git add daily_data\daily_wall_summary_*.csv
+git add daily_data\etf_gamma_by_strike_*.csv
+git add daily_data\key_strike_context_*.csv
+git add daily_data\wall_confidence_*.csv
+git add daily_data\spot_position_features_*.csv
+git add daily_data\wall_features_*.csv
+git add daily_data\key_level_table_*.csv
+git add daily_data\gamma_audit_table_*.csv
+git add daily_data\expiry_structure_*.csv
+git add daily_data\daily_wall_snapshot_*.csv
+git add daily_data\wall_event_log_*.csv
+git add daily_data\wall_validation_summary_*.csv
+git add daily_data\wall_regime_performance_*.csv
+git add daily_data\iv_surface_summary_*.csv
+git add daily_data\greek_factor_summary_*.csv
+git add daily_data\wall_lifecycle_*.csv
+git add daily_data\market_state_table_*.csv
+git add daily_data\comparison_table_*.csv
+git add daily_data\data_quality_report_*.csv
+git add daily_data\etf_quality_by_underlying_*.csv
+git add daily_data\spot_price_cleaned_*.csv
+git add daily_data\market_structure_report_*.txt
+git add daily_data\range_structure_report_*.txt
 
 git diff --cached --quiet
 if not errorlevel 1 goto NO_CHANGES

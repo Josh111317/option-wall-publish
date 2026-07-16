@@ -31,6 +31,7 @@ DATA_DIR_CANDIDATES = [
     APP_DIR / "daily_data",
     APP_DIR.parent / "daily_data",
 ]
+POSTS_DIR = APP_DIR / "posts"
 
 
 def get_ga_api_secret() -> str:
@@ -316,6 +317,31 @@ def read_text_file(path_text: str) -> str:
     if not path.exists():
         return ""
     return path.read_text(encoding="utf-8-sig")
+
+
+def load_journal_posts(posts_dir_text: str) -> list[dict[str, str]]:
+    """读取 posts/*.md 交易札记，按日期倒序排列。"""
+    posts_dir = Path(posts_dir_text)
+    if not posts_dir.exists():
+        return []
+    posts: list[dict[str, str]] = []
+    for path in posts_dir.glob("*.md"):
+        body = path.read_text(encoding="utf-8-sig")
+        title = path.stem
+        for line in body.splitlines():
+            text = line.strip()
+            if text.startswith("# "):
+                title = text[2:].strip() or title
+                break
+        parsed = pd.to_datetime(path.stem, errors="coerce")
+        date_text = parsed.strftime("%Y-%m-%d") if pd.notna(parsed) else path.stem
+        posts.append({
+            "title": title,
+            "date": date_text,
+            "file_name": path.name,
+            "body": body,
+        })
+    return sorted(posts, key=lambda item: item["date"], reverse=True)
 
 
 def load_exports(data_dir: Path, trade_date_value) -> dict[str, object]:
@@ -743,6 +769,49 @@ def render_support_box(location: str = "main") -> None:
         st.info("打赏入口尚未配置。可在 assets/ 放入 wechat_reward.png、alipay_reward.png，或在 publish_app.py 填入爱发电 / Buy Me a Coffee 链接。")
 
 
+def render_trading_journal() -> None:
+    """展示 posts/*.md 中的交易札记。"""
+    st.subheader("交易札记")
+    st.caption("这里展示作者自己的市场观察与交易复盘。内容来自 posts/ 目录下的 Markdown 文件，不支持访客编辑。")
+    posts = load_journal_posts(str(POSTS_DIR))
+    if not posts:
+        st.info("还没有交易札记。你可以在 posts/ 目录下新增类似 2026-07-17.md 的 Markdown 文件。")
+        st.code(
+            "# 2026-07-17 市场观察\n\n"
+            "今天主要记录我对ETF期权结构、关键价位和风险切换条件的看法。\n\n"
+            "## 重点观察\n\n"
+            "1. 上证50ETF是否继续围绕Price Wall震荡\n"
+            "2. 深证100ETF负Gamma状态是否修复\n",
+            language="markdown",
+        )
+        return
+
+    labels = [f"{post['date']} | {post['title']}" for post in posts]
+    selected = st.selectbox("选择札记", labels, key="publish_journal_post")
+    post = posts[labels.index(selected)]
+    if st.session_state.get("last_tracked_journal_post") != post["file_name"]:
+        inject_ga_event(
+            "view_trading_journal",
+            {"post_file": post["file_name"], "post_date": post["date"], "post_title": post["title"]},
+        )
+        st.session_state["last_tracked_journal_post"] = post["file_name"]
+
+    st.markdown(f"### {post['title']}")
+    st.caption(f"发布日期：{post['date']} ｜ 文件：{post['file_name']}")
+    st.divider()
+    st.markdown(post["body"])
+
+    st.download_button(
+        "下载本篇札记",
+        data=post["body"].encode("utf-8-sig"),
+        file_name=post["file_name"],
+        mime="text/markdown",
+        key=f"download_journal_{post['file_name']}",
+        on_click=track_download_click,
+        args=(post["file_name"], post["date"]),
+    )
+
+
 def render_feedback() -> None:
     """Show the configured feedback form inside the published dashboard."""
     st.subheader("留言反馈")
@@ -786,11 +855,12 @@ def main() -> None:
             st.sidebar.dataframe(latest_index[["file_name", "rows", "saved_at"]].tail(30), use_container_width=True, hide_index=True)
 
     inject_tab_click_tracking()
-    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_download, tab_feedback = st.tabs([
+    tab_overview, tab_gamma, tab_structure, tab_comparison, tab_journal, tab_download, tab_feedback = st.tabs([
         "今日总览",
         "ETF Gamma Wall",
         "结构分析",
         "多标的对比",
+        "交易札记",
         "下载结果",
         "留言反馈",
     ])
@@ -802,6 +872,8 @@ def main() -> None:
         render_structure_tabs(exports)
     with tab_comparison:
         render_comparison(exports)
+    with tab_journal:
+        render_trading_journal()
     with tab_download:
         render_support_box(location="download_tab")
         show_downloads(exports, selected_date)

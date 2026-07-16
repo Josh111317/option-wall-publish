@@ -2,3 +2,7 @@
 *.py[cod]
 .pytest_cache/
 .streamlit/secrets.toml
+
+# Large production-only exports stay local and should not be published.
+daily_data/clean_*.csv
+daily_data/commodity_wall_by_strike_*.csv
