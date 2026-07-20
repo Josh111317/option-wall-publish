@@ -320,7 +320,7 @@ def read_text_file(path_text: str) -> str:
 
 
 def load_journal_posts(posts_dir_text: str) -> list[dict[str, str]]:
-    """读取 posts/*.md 交易札记，按日期倒序排列。"""
+    """读取 posts/*.md 个人专栏，按日期倒序排列。"""
     posts_dir = Path(posts_dir_text)
     if not posts_dir.exists():
         return []
@@ -333,7 +333,7 @@ def load_journal_posts(posts_dir_text: str) -> list[dict[str, str]]:
             if text.startswith("# "):
                 title = text[2:].strip() or title
                 break
-        parsed = pd.to_datetime(path.stem, errors="coerce")
+        parsed = pd.to_datetime(path.stem[:10], errors="coerce")
         date_text = parsed.strftime("%Y-%m-%d") if pd.notna(parsed) else path.stem
         posts.append({
             "title": title,
@@ -770,12 +770,12 @@ def render_support_box(location: str = "main") -> None:
 
 
 def render_trading_journal() -> None:
-    """展示 posts/*.md 中的交易札记。"""
-    st.subheader("交易札记")
-    st.caption("这里展示作者自己的市场观察与交易复盘。内容来自 posts/ 目录下的 Markdown 文件，不支持访客编辑。")
+    """展示 posts/*.md 中的个人专栏。"""
+    st.subheader("个人专栏")
+    st.caption("这里展示作者自己的市场观察、交易复盘和专题文章。内容来自 posts/ 目录下的 Markdown 文件，不支持访客编辑。")
     posts = load_journal_posts(str(POSTS_DIR))
     if not posts:
-        st.info("还没有交易札记。你可以在 posts/ 目录下新增类似 2026-07-17.md 的 Markdown 文件。")
+        st.info("还没有个人专栏文章。你可以在 posts/ 目录下新增类似 2026-07-20.md 的 Markdown 文件。")
         st.code(
             "# 2026-07-17 市场观察\n\n"
             "今天主要记录我对ETF期权结构、关键价位和风险切换条件的看法。\n\n"
@@ -787,11 +787,11 @@ def render_trading_journal() -> None:
         return
 
     labels = [f"{post['date']} | {post['title']}" for post in posts]
-    selected = st.selectbox("选择札记", labels, key="publish_journal_post")
+    selected = st.selectbox("选择文章", labels, key="publish_journal_post")
     post = posts[labels.index(selected)]
     if st.session_state.get("last_tracked_journal_post") != post["file_name"]:
         inject_ga_event(
-            "view_trading_journal",
+            "view_personal_column",
             {"post_file": post["file_name"], "post_date": post["date"], "post_title": post["title"]},
         )
         st.session_state["last_tracked_journal_post"] = post["file_name"]
@@ -802,7 +802,7 @@ def render_trading_journal() -> None:
     st.markdown(post["body"])
 
     st.download_button(
-        "下载本篇札记",
+        "下载本篇文章",
         data=post["body"].encode("utf-8-sig"),
         file_name=post["file_name"],
         mime="text/markdown",
@@ -860,7 +860,7 @@ def main() -> None:
         "ETF Gamma Wall",
         "结构分析",
         "多标的对比",
-        "交易札记",
+        "个人专栏",
         "下载结果",
         "留言反馈",
     ])
