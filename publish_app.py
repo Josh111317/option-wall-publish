@@ -283,11 +283,12 @@ def scan_dates_from_files(data_dir: Path) -> list[date]:
 
 
 def available_dates(index: pd.DataFrame, data_dir: Path) -> list[date]:
-    """获取可发布日期列表。"""
+    """合并索引和文件名扫描结果，避免不完整 index 隐藏历史日期。"""
+    dates = set(scan_dates_from_files(data_dir))
     if not index.empty and "trade_date" in index.columns:
-        values = pd.to_datetime(index["trade_date"], errors="coerce").dropna().dt.date.unique().tolist()
-        return sorted(values)
-    return scan_dates_from_files(data_dir)
+        values = pd.to_datetime(index["trade_date"], errors="coerce").dropna().dt.date.tolist()
+        dates.update(values)
+    return sorted(dates)
 
 
 def resolve_export_path(data_dir: Path, file_name: str, trade_date_value) -> Path:
