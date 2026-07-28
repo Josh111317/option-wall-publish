@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import base64
+import html
 import json
+import re
 import uuid
 from datetime import date
 from pathlib import Path
@@ -45,10 +47,34 @@ def get_ga_api_secret() -> str:
 
 
 def get_ga_client_id() -> str:
-    """Keep one anonymous GA client id for the current Streamlit browser session."""
+    """优先复用浏览器 GA Cookie，避免服务端事件被计为另一名用户。"""
+    try:
+        ga_cookie = str(st.context.cookies.get("_ga", "")).strip()
+    except Exception:
+        ga_cookie = ""
+    match = re.search(r"(\d+\.\d+)$", ga_cookie)
+    if match:
+        return match.group(1)
     if "ga_client_id" not in st.session_state:
         st.session_state["ga_client_id"] = str(uuid.uuid4())
     return str(st.session_state["ga_client_id"])
+
+
+def get_ga_session_id() -> int | None:
+    """从 GA4 会话 Cookie 提取 session_id，提取失败时安全返回 None。"""
+    cookie_name = f"_ga_{GA_MEASUREMENT_ID.removeprefix('G-')}"
+    try:
+        session_cookie = str(st.context.cookies.get(cookie_name, "")).strip()
+    except Exception:
+        return None
+    if not session_cookie:
+        return None
+
+    # 兼容 GS1.1.1690000000... 与 GS2.1.s1690000000... 两类格式。
+    match = re.search(r"(?:^|[.$])s?(\d{10})(?:[.$]|$)", session_cookie)
+    if not match:
+        return None
+    return int(match.group(1))
 
 
 def send_ga_server_event(event_name: str, params: dict[str, object] | None = None) -> bool:
@@ -56,10 +82,13 @@ def send_ga_server_event(event_name: str, params: dict[str, object] | None = Non
     api_secret = get_ga_api_secret()
     if not GA_MEASUREMENT_ID or not api_secret or not event_name:
         return False
-    safe_params = {
-        str(key): "" if value is None else str(value)
-        for key, value in (params or {}).items()
-    }
+    safe_params: dict[str, object] = {}
+    for key, value in (params or {}).items():
+        safe_params[str(key)] = value if isinstance(value, (bool, int, float)) else ("" if value is None else str(value))
+    safe_params.setdefault("engagement_time_msec", 1)
+    session_id = get_ga_session_id()
+    if session_id is not None:
+        safe_params.setdefault("session_id", session_id)
     payload = {
         "client_id": get_ga_client_id(),
         "events": [
@@ -87,7 +116,7 @@ def send_ga_server_event(event_name: str, params: dict[str, object] | None = Non
         return False
 
 
-def inject_google_analytics(measurement_id: str) -> None:
+def inject_google_analytics(measurement_id: str, trade_date_text: str) -> None:
     """Inject GA4 tracking for the read-only published dashboard."""
     if not measurement_id:
         return
@@ -109,11 +138,8 @@ def inject_google_analytics(measurement_id: str) -> None:
           gtag('config', '{measurement_id}', {{
             page_title: 'Option Wall Published Dashboard',
             page_path: pagePath,
+            trade_date: {json.dumps(trade_date_text)},
             send_page_view: true
-          }});
-          gtag('event', 'page_view', {{
-            page_title: 'Option Wall Published Dashboard',
-            page_path: pagePath
           }});
         </script>
         """,
@@ -123,37 +149,11 @@ def inject_google_analytics(measurement_id: str) -> None:
 
 
 def inject_ga_event(event_name: str, params: dict[str, object] | None = None) -> None:
-    """Send a lightweight GA4 custom event from a Streamlit component iframe."""
+    """通过服务端发送一次 GA4 交互事件，避免浏览器与服务端重复计数。"""
     send_ga_server_event(event_name, params)
-    if not GA_MEASUREMENT_ID:
-        return
-    params = params or {}
-    safe_params = {
-        str(key): "" if value is None else str(value)
-        for key, value in params.items()
-    }
-    params_lines = ",\n".join(
-        f"{key!r}: {value!r}" for key, value in safe_params.items()
-    )
-    components.html(
-        f"""
-        <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){{dataLayer.push(arguments);}}
-          gtag('js', new Date());
-          gtag('config', '{GA_MEASUREMENT_ID}', {{ send_page_view: false }});
-          gtag('event', '{event_name}', {{
-            {params_lines}
-          }});
-        </script>
-        """,
-        height=0,
-        width=0,
-    )
 
 
-def inject_tab_click_tracking() -> None:
+def inject_tab_click_tracking(trade_date_text: str) -> None:
     """Track Streamlit tab clicks in GA4 without changing the visual layout."""
     if not GA_MEASUREMENT_ID:
         return
@@ -184,7 +184,8 @@ def inject_tab_click_tracking() -> None:
                 if (label) {{
                   gtag('event', 'view_tab', {{
                     tab_name: label,
-                    app_name: 'option_wall_publish'
+                    app_name: 'option_wall_publish',
+                    trade_date: {json.dumps(trade_date_text)}
                   }});
                 }}
               }});
@@ -217,18 +218,125 @@ def emit_pending_ga_event() -> None:
         inject_ga_event(str(event.get("event_name", "")), event.get("params", {}))
 
 
-def emit_page_view_once() -> None:
-    """Emit one server-side page_view event for the current Streamlit session."""
-    if st.session_state.get("ga_page_view_sent"):
-        return
-    inject_ga_event(
-        "page_view",
-        {
-            "page_title": "Option Wall Published Dashboard",
-            "app_name": "option_wall_publish",
+def unlock_market_report(report_state_key: str, trade_date_text: str) -> None:
+    """解锁报告正文，并记录一次明确的报告查阅事件。"""
+    st.session_state[report_state_key] = True
+    st.session_state["pending_ga_event"] = {
+        "event_name": "view_report",
+        "params": {
+            "report_type": "market_structure_report",
+            "trade_date": trade_date_text,
         },
+    }
+
+
+def render_tracked_report(report_text: str, trade_date_text: str) -> None:
+    """展示不可直接选中的报告正文，并跟踪30秒阅读和专用复制按钮。"""
+    escaped_report = html.escape(report_text)
+    report_json = json.dumps(report_text, ensure_ascii=False)
+    date_json = json.dumps(trade_date_text)
+    measurement_json = json.dumps(GA_MEASUREMENT_ID)
+    components.html(
+        f"""
+        <style>
+          body {{
+            margin: 0;
+            color: #e6edf3;
+            background: #0e1117;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+          }}
+          .toolbar {{
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0 12px;
+            background: #0e1117;
+          }}
+          button {{
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 8px 14px;
+            color: #fff;
+            background: #2563eb;
+            cursor: pointer;
+          }}
+          #copy-status {{ color: #9ca3af; font-size: 13px; }}
+          pre {{
+            margin: 0;
+            padding: 18px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            background: #161b22;
+            color: #e6edf3;
+            font: 14px/1.75 "Microsoft YaHei", "PingFang SC", sans-serif;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            user-select: none;
+          }}
+        </style>
+        <div class="toolbar">
+          <button id="copy-report" type="button">复制完整报告</button>
+          <span id="copy-status">复制操作将匿名计入使用统计</span>
+        </div>
+        <pre>{escaped_report}</pre>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){{dataLayer.push(arguments);}}
+          gtag('js', new Date());
+          gtag('config', {measurement_json}, {{ send_page_view: false }});
+
+          const reportText = {report_json};
+          const tradeDate = {date_json};
+          const engagementKey = `option_wall_report_engaged_${{tradeDate}}`;
+
+          setTimeout(() => {{
+            if (!localStorage.getItem(engagementKey)) {{
+              gtag('event', 'report_engaged', {{
+                report_type: 'market_structure_report',
+                trade_date: tradeDate,
+                engagement_seconds: 30
+              }});
+              localStorage.setItem(engagementKey, '1');
+            }}
+          }}, 30000);
+
+          async function copyReport() {{
+            const status = document.getElementById('copy-status');
+            try {{
+              await navigator.clipboard.writeText(reportText);
+              status.textContent = '已复制完整报告';
+              gtag('event', 'copy_report', {{
+                report_type: 'market_structure_report',
+                trade_date: tradeDate
+              }});
+            }} catch (error) {{
+              const area = document.createElement('textarea');
+              area.value = reportText;
+              document.body.appendChild(area);
+              area.select();
+              const copied = document.execCommand('copy');
+              area.remove();
+              if (copied) {{
+                status.textContent = '已复制完整报告';
+                gtag('event', 'copy_report', {{
+                  report_type: 'market_structure_report',
+                  trade_date: tradeDate
+                }});
+              }} else {{
+                status.textContent = '浏览器阻止复制，请重试';
+              }}
+            }}
+          }}
+          document.getElementById('copy-report').addEventListener('click', copyReport);
+        </script>
+        """,
+        height=650,
+        scrolling=True,
     )
-    st.session_state["ga_page_view_sent"] = True
 
 
 def image_to_data_uri(path: Path) -> str:
@@ -589,7 +697,7 @@ def show_downloads(exports: dict[str, object], trade_date_value) -> None:
                 st.button(f"缺失 {name}", disabled=True, key=f"missing_{name}")
 
 
-def render_overview(exports: dict[str, object], report_text: str) -> None:
+def render_overview(exports: dict[str, object], report_text: str, trade_date_text: str) -> None:
     """今日总览。"""
     summary = exports["daily_wall_summary.csv"]
     wall_features = exports["wall_features.csv"]
@@ -614,7 +722,19 @@ def render_overview(exports: dict[str, object], report_text: str) -> None:
 
     st.subheader("自动报告")
     if report_text:
-        st.text_area("市场结构分析报告", report_text, height=520, key="publish_market_report")
+        report_state_key = f"market_report_unlocked_{trade_date_text}"
+        if not st.session_state.get(report_state_key, False):
+            st.info("完整报告已收起。点击后即可免费查看，并匿名记录一次报告查阅。")
+            st.button(
+                "查看完整市场结构分析报告",
+                type="primary",
+                key=f"unlock_market_report_{trade_date_text}",
+                on_click=unlock_market_report,
+                args=(report_state_key, trade_date_text),
+            )
+        else:
+            st.caption("已解锁本期报告。停留满30秒计为一次有效阅读；使用下方按钮复制时计为一次复制。")
+            render_tracked_report(report_text, trade_date_text)
     else:
         st.info("未找到 market_structure_report.txt。")
 
@@ -828,9 +948,6 @@ def render_feedback() -> None:
 def main() -> None:
     """Streamlit 入口。"""
     st.set_page_config(page_title="Option Wall Published Dashboard", layout="wide")
-    inject_google_analytics(GA_MEASUREMENT_ID)
-    emit_pending_ga_event()
-    emit_page_view_once()
     st.title("Option Wall Published Dashboard")
     st.caption("只读发布版：仅展示 daily_data 中已导出的结果，不上传文件、不读取 Access、不重新计算。")
 
@@ -843,9 +960,16 @@ def main() -> None:
 
     default_date = dates[-1]
     selected_date = st.sidebar.selectbox("选择发布日期", dates, index=len(dates) - 1, format_func=lambda value: str(value))
-    if st.session_state.get("last_tracked_trade_date") != str(selected_date):
+    selected_date_text = str(selected_date)
+    if not st.session_state.get("ga_browser_page_view_initialized"):
+        inject_google_analytics(GA_MEASUREMENT_ID, selected_date_text)
+        st.session_state["ga_browser_page_view_initialized"] = True
+    emit_pending_ga_event()
+
+    previous_trade_date = st.session_state.get("last_tracked_trade_date")
+    if previous_trade_date is not None and previous_trade_date != selected_date_text:
         inject_ga_event("select_trade_date", {"trade_date": str(selected_date)})
-        st.session_state["last_tracked_trade_date"] = str(selected_date)
+    st.session_state["last_tracked_trade_date"] = selected_date_text
     exports = load_exports(data_dir, selected_date)
     report_text = exports.get("market_structure_report.txt", "")
 
@@ -855,7 +979,7 @@ def main() -> None:
         if not latest_index.empty:
             st.sidebar.dataframe(latest_index[["file_name", "rows", "saved_at"]].tail(30), use_container_width=True, hide_index=True)
 
-    inject_tab_click_tracking()
+    inject_tab_click_tracking(selected_date_text)
     tab_overview, tab_gamma, tab_structure, tab_comparison, tab_journal, tab_download, tab_feedback = st.tabs([
         "今日总览",
         "ETF Gamma Wall",
@@ -866,7 +990,7 @@ def main() -> None:
         "留言反馈",
     ])
     with tab_overview:
-        render_overview(exports, str(report_text or ""))
+        render_overview(exports, str(report_text or ""), selected_date_text)
     with tab_gamma:
         render_etf_gamma(exports)
     with tab_structure:

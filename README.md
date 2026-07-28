@@ -76,10 +76,39 @@ G-9VW3TM6793
 
 当前记录：
 
-- 页面访问
+- 页面访问：浏览器端每个 Streamlit 会话只发送一次
 - 日期选择事件：`select_trade_date`
 - Tab 点击事件：`view_tab`
 - 下载事件：`download_result_file`
+- 报告解锁事件：`view_report`
+- 报告停留满 30 秒：`report_engaged`
+- 使用专用按钮复制报告：`copy_report`
+- 个人专栏阅读：`view_personal_column`
+
+自动报告正文默认不下发到页面。访客点击“查看完整市场结构分析报告”后才会显示正文并记录
+`view_report`；停留满 30 秒后记录 `report_engaged`；点击“复制完整报告”并成功写入剪贴板后记录
+`copy_report`。这些统计都是匿名事件，不能识别访客姓名。
+
+在 GA4 的“管理 → 数据显示 → 自定义定义”中创建以下事件级自定义维度：
+
+| 维度名称 | 事件参数 |
+| --- | --- |
+| Tab 名称 | `tab_name` |
+| 报告类型 | `report_type` |
+| 交易日期 | `trade_date` |
+| 标的 | `underlying` |
+| 合约月份 | `contract_month` |
+| 文件名 | `file_name` |
+| 专栏标题 | `post_title` |
+
+注册后通常需要等待一段时间，才能在 GA4“探索”中按这些参数拆分事件。建议建立：
+
+- 内容使用：`view_tab`、`view_report`、`report_engaged`
+- 报告复制：`copy_report`
+- 文件下载：`download_result_file`
+- 使用漏斗：`page_view → view_report → report_engaged → download_result_file`
+
+可以把 `download_result_file`、`report_engaged` 标记为关键事件。
 
 Streamlit Cloud 线上部署需要在 App secrets 中配置：
 
