@@ -1,0 +1,10 @@
+﻿market_type,underlying,rows,contract_month_count,strike_valid_rate,gamma_valid_rate,open_interest_valid_rate,underlying_price,has_valid_price,gex_valid_rate,parse_error_rows
+ETF,上证50ETF华夏,90,4,1.0,1.0,1.0,3.041,True,1.0,0
+ETF,中证500ETF南方,158,4,1.0,1.0,1.0,7.967,True,1.0,0
+ETF,中证500ETF嘉实,112,4,1.0,1.0,1.0,3.233,True,1.0,0
+ETF,创业板ETF易方达,132,4,1.0,1.0,1.0,3.456,True,1.0,0
+ETF,沪深300ETF华泰柏瑞,96,4,1.0,1.0,1.0,4.685,True,1.0,0
+ETF,沪深300ETF嘉实,92,4,1.0,1.0,1.0,4.889,True,1.0,0
+ETF,深证100ETF易方达,108,4,1.0,1.0,1.0,3.603,True,1.0,0
+ETF,科创50ETF华夏,164,4,1.0,1.0,1.0,1.777,True,1.0,0
+ETF,科创50ETF易方达,158,4,1.0,1.0,1.0,1.72,True,1.0,0
