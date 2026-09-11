@@ -1,0 +1,5 @@
+﻿area,check,status,affected_count,detail
+ETF,标的价格覆盖,OK,0,所有 ETF 都有有效标的价格
+ETF,GEX 有效覆盖,OK,0,Gamma、持仓、价格覆盖较完整
+COMMODITY,商品期权解析,OK,0,商品期权可解析记录正常
+SPOT_PRICE,标的行情识别,OK,9,已识别 ETF 标的行情
