@@ -1,0 +1,303 @@
+﻿市场结构分析报告
+
+1. 今日决策摘要
+- 市场状态：Delta结构略偏上方，正Gamma强度较明显，Put侧隐波溢价。
+- Gamma结构：9个近月ETF中9个为Positive Gamma，正Gamma覆盖面较广；Normalized Net GEX均值为0.266，因此需要同时区分“覆盖面”和“强度”。
+- 方向结构：Delta结构略偏上方。单日结构不直接给出确定性方向，只提供关键位置与状态切换地图。
+- 隐波聚合口径：等权ETF聚合的25Delta Call/Put偏斜为Put侧隐波溢价（均值 0.161）。
+- 隐波横截面口径：横截面主分析月：期限倒挂 5/9；Put侧偏高 8/9，平衡 1/9，Call侧偏高 0/9。两种口径用途不同，不应直接视为矛盾。
+- 风险成本：Vega风险较低；时间价值消耗中等；Rho影响较弱。
+- 今日可执行等级：条件观察。主分析月高可信Wall 0 个；全月份快照 0 个；关键价位优先作为状态切换参考。
+- 判断原则：价格突破或跌破关键位决定方向，Gamma下降或转负只说明该方向的运动更容易被放大。
+
+2. ETF观察优先级
+| 标的 | 月份 | 当前模式 | 下方关键位 | 上方关键位 | 最近距离 | 观察优先级 | Wall可信度 | 报告结论 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 科创50ETF易方达 | 11月 | 关键位争夺 | 1.300(Price Wall) | 1.400(Call Wall) | 0.15% | 高 | 中 | 关键位附近，优先观察得失 |
+| 沪深300ETF华泰柏瑞 | 11月 | 关键位争夺 | 4.100(Put Wall) | 4.200(Price Wall) | 0.60% | 中 | 中 | 关键位附近，优先观察得失 |
+| 上证50ETF华夏 | 11月 | 关键位争夺 | 2.900(Call Wall) | N/A | 0.79% | 中 | 中 | 关键位附近，优先观察得失 |
+| 沪深300ETF嘉实 | 11月 | 关键位争夺 | 4.300(Put Wall) | 4.400(Call Wall) | 0.82% | 中 | 中 | 关键位附近，优先观察得失 |
+| 中证500ETF南方 | 11月 | 正Gamma区间约束 | 6.500(Put Wall) | 6.750(Call Wall) | 1.34% | 中 | 中 | 区间约束，等待突破确认 |
+| 中证500ETF嘉实 | 11月 | 正Gamma区间约束 | 2.600(Put Wall) | 2.750(Call Wall) | 1.74% | 中 | 中 | 区间约束，等待突破确认 |
+| 创业板ETF易方达 | 11月 | 正Gamma区间约束 | 2.500(Put Wall) | 2.700(Call Wall) | 2.38% | 中 | 中 | 区间约束，等待突破确认 |
+| 深证100ETF易方达 | 11月 | 正Gamma区间约束 | 2.800(Put Wall) | 3.000(Call Wall) | 3.35% | 低 | 中 | 区间约束，等待突破确认 |
+| 科创50ETF华夏 | 11月 | 正Gamma区间约束 | 1.300(Put Wall) | 1.400(Call Wall) | 2.99% | 低 | 中 | 区间约束，等待突破确认 |
+
+3. 重点标的情景分析
+- 以下只展开观察优先级最高的前4个标的；完整九个ETF见上一节排序表。
+- 科创50ETF易方达 11月
+  当前结构：现价1.302；Call Wall 1.400 是上方目标/压力/突破位，距离现价7.53%; Put Wall 1.200 是下方回踩/失守参考位，距离现价-7.83%; Price Wall 1.300 是现价附近争夺/吸附位，距离现价-0.15%。
+  基准情景：下方关键位 1.300(Price Wall)，上方关键位 1.400(Call Wall)；当前按“关键位争夺”处理。
+  向上触发：价格有效站上1.400，并获得成交、收盘位置或Wall上移确认；若同时Gamma下降或转负，则上行波动放大概率进一步提高。
+  向下触发：价格有效跌破1.300，并伴随Put Wall下移、Put隐波抬升或成交增加；若同时Gamma下降或转负，则下行波动放大概率进一步提高。
+  失效条件：Wall反向迁移、可信度下降、现价明显脱离核心区间，或成交与Gamma变化不支持原情景；Wall可信度：中。
+- 沪深300ETF华泰柏瑞 11月
+  当前结构：现价4.175；Call Wall 4.300 是上方目标/压力/突破位，距离现价2.99%; Put Wall 4.100 是下方回踩/失守参考位，距离现价-1.80%; Price Wall 4.200 是上方目标/压力/突破位，距离现价0.60%。
+  基准情景：下方关键位 4.100(Put Wall)，上方关键位 4.200(Price Wall)；当前按“关键位争夺”处理。
+  向上触发：价格有效站上4.200，并获得成交、收盘位置或Wall上移确认；若同时Gamma下降或转负，则上行波动放大概率进一步提高。
+  向下触发：价格有效跌破4.100，并伴随Put Wall下移、Put隐波抬升或成交增加；若同时Gamma下降或转负，则下行波动放大概率进一步提高。
+  失效条件：Wall反向迁移、可信度下降、现价明显脱离核心区间，或成交与Gamma变化不支持原情景；Wall可信度：中。
+- 上证50ETF华夏 11月
+  当前结构：现价2.923；Call Wall 2.900 是下方回踩/失守参考位，距离现价-0.79%; Put Wall 2.900 是下方回踩/失守参考位，距离现价-0.79%; Price Wall 2.900 是下方回踩/失守参考位，距离现价-0.79%。
+  基准情景：下方关键位 2.900(Call Wall)，上方关键位 N/A；当前按“关键位争夺”处理。
+  向上触发：当前没有明确上方Wall，若价格远离现有关键区并伴随成交放大，再观察新的上方Wall是否形成。
+  向下触发：价格有效跌破2.900，并伴随Put Wall下移、Put隐波抬升或成交增加；若同时Gamma下降或转负，则下行波动放大概率进一步提高。
+  失效条件：Wall反向迁移、可信度下降、现价明显脱离核心区间，或成交与Gamma变化不支持原情景；Wall可信度：中。
+- 沪深300ETF嘉实 11月
+  当前结构：现价4.364；Call Wall 4.400 是上方目标/压力/突破位，距离现价0.82%; Put Wall 4.300 是下方回踩/失守参考位，距离现价-1.47%; Price Wall 4.400 是上方目标/压力/突破位，距离现价0.82%。
+  基准情景：下方关键位 4.300(Put Wall)，上方关键位 4.400(Call Wall)；当前按“关键位争夺”处理。
+  向上触发：价格有效站上4.400，并获得成交、收盘位置或Wall上移确认；若同时Gamma下降或转负，则上行波动放大概率进一步提高。
+  向下触发：价格有效跌破4.300，并伴随Put Wall下移、Put隐波抬升或成交增加；若同时Gamma下降或转负，则下行波动放大概率进一步提高。
+  失效条件：Wall反向迁移、可信度下降、现价明显脱离核心区间，或成交与Gamma变化不支持原情景；Wall可信度：中。
+4. 解读边界
+- 本节只使用ETF主分析月结构生成首页判断；到期日微观结构、远月和商品期权不参与全市场首页结论。
+- Call/Put只说明Wall的合约来源；位于现价上方还是下方，才决定它当前更像压力、支撑、争夺位或修复确认位。
+- 如果Wall反向迁移、可信度下降、Gamma强度收缩或现价明显脱离Price Wall，原有支撑/阻力假设应取消或降级。
+
+5. 技术附录：Gamma Regime 解读框架
+- net_gex > 0：按当前OI-GEX口径，市场显示Positive Gamma结构，结构上倾向于压制波动，价格更容易围绕关键价位震荡。
+- net_gex < 0：按当前OI-GEX口径，市场显示Negative Gamma结构，结构上倾向于放大已发生方向的波动，但它本身不是上涨或下跌信号。
+- net_gex 接近0：Gamma中性区，方向约束较弱，更需要结合价格、成交和墙位变化确认。
+- 主分析月ETF口径：Positive Gamma占比100.00%，Negative Gamma占比0.00%，Neutral Gamma占比0.00%，Data Unavailable占比0.00%。
+
+6. 附录：主分析月合约结构明细
+- 上证50ETF华夏: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 2.9230, Call Wall 2.9000, Put Wall 2.9000, Price Wall 2.9000, price_wall_distance -0.79%，Price Wall位于现价下方。
+- 中证500ETF南方: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 6.6610, Call Wall 6.7500, Put Wall 6.5000, Price Wall 6.5000, price_wall_distance -2.42%，Price Wall位于现价下方。
+- 中证500ETF嘉实: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 2.7030, Call Wall 2.7500, Put Wall 2.6000, Price Wall 2.6000, price_wall_distance -3.81%，Price Wall位于现价下方。
+- 创业板ETF易方达: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 2.5610, Call Wall 2.7000, Put Wall 2.5000, Price Wall 2.5000, price_wall_distance -2.38%，Price Wall位于现价下方。
+- 沪深300ETF华泰柏瑞: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 4.1750, Call Wall 4.3000, Put Wall 4.1000, Price Wall 4.2000, price_wall_distance 0.60%，Price Wall位于现价上方。
+- 沪深300ETF嘉实: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 4.3640, Call Wall 4.4000, Put Wall 4.3000, Price Wall 4.4000, price_wall_distance 0.82%，Price Wall位于现价上方。
+- 深证100ETF易方达: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 2.8970, Call Wall 3.0000, Put Wall 2.8000, Price Wall 3.0000, price_wall_distance 3.56%，Price Wall位于现价上方。
+- 科创50ETF华夏: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 1.3400, Call Wall 1.4000, Put Wall 1.3000, Price Wall 1.4000, price_wall_distance 4.48%，Price Wall位于现价上方。
+- 科创50ETF易方达: 主分析月 11月；到期月 无；选择原因 11月 DTE=21，默认使用前月；置信度 medium。 现价 1.3020, Call Wall 1.4000, Put Wall 1.2000, Price Wall 1.3000, price_wall_distance -0.15%，Price Wall位于现价下方。
+- Call/Put只表示Wall来源；价格角色由其相对现价的位置决定，不能机械解释为Call必是上方压力、Put必是下方支撑。
+
+7. 附录：远月合约结构明细
+- 远月合约选择为 12月。
+- 上证50ETF华夏: Call Wall位于现价上方，距离2.63%；Put Wall位于现价下方，距离-2.50%。
+- 中证500ETF南方: Call Wall位于现价下方，距离-2.42%；Put Wall位于现价下方，距离-2.42%。
+- 中证500ETF嘉实: Call Wall位于现价上方，距离10.99%；Put Wall位于现价上方，距离3.59%。
+- 创业板ETF易方达: Call Wall位于现价上方，距离1.52%；Put Wall位于现价上方，距离15.19%。
+- 沪深300ETF华泰柏瑞: Call Wall位于现价上方，距离2.99%；Put Wall位于现价上方，距离0.60%。
+- 沪深300ETF嘉实: Call Wall位于现价上方，距离0.82%；Put Wall位于现价上方，距离0.82%。
+- 深证100ETF易方达: Call Wall位于现价上方，距离1.83%；Put Wall位于现价上方，距离3.56%。
+- 科创50ETF华夏: Call Wall位于现价上方，距离4.48%；Put Wall位于现价下方，距离-2.99%。
+- 科创50ETF易方达: Call Wall位于现价上方，距离11.37%；Put Wall位于现价下方，距离-3.99%。
+
+8. 附录：到期日微观结构、Gamma Flip、Zero Gamma 与 Expected Move
+- 上证50ETF华夏（11月合约）: GEX Flip位于 2.9500；价格穿越该价位时，波动状态可能切换。
+- 上证50ETF华夏（12月合约）: GEX Flip位于 2.9500；价格穿越该价位时，波动状态可能切换。
+- 上证50ETF华夏（3月合约）: GEX Flip位于 2.9500；价格穿越该价位时，波动状态可能切换。
+- 上证50ETF华夏（6月合约）: GEX Flip位于 2.9500；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF南方（11月合约）: GEX Flip位于 7.0000；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF南方（12月合约）: GEX Flip位于 8.8410；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF南方（3月合约）: GEX Flip位于 6.7500；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF南方（6月合约）: GEX Flip位于 6.5000；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF嘉实（11月合约）: GEX Flip位于 2.7500；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF嘉实（12月合约）: GEX Flip位于 3.0000；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF嘉实（3月合约）: GEX Flip位于 2.6500；价格穿越该价位时，波动状态可能切换。
+- 中证500ETF嘉实（6月合约）: GEX Flip位于 2.4500；价格穿越该价位时，波动状态可能切换。
+- 创业板ETF易方达（11月合约）: GEX Flip位于 2.7000；价格穿越该价位时，波动状态可能切换。
+- 创业板ETF易方达（12月合约）: GEX Flip位于 3.2000；价格穿越该价位时，波动状态可能切换。
+- 创业板ETF易方达（3月合约）: GEX Flip位于 2.8500；价格穿越该价位时，波动状态可能切换。
+- 创业板ETF易方达（6月合约）: GEX Flip位于 2.6500；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF华泰柏瑞（11月合约）: GEX Flip位于 4.2000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF华泰柏瑞（12月合约）: GEX Flip位于 4.6000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF华泰柏瑞（3月合约）: GEX Flip位于 4.1000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF华泰柏瑞（6月合约）: GEX Flip位于 4.2000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF嘉实（11月合约）: GEX Flip位于 4.4000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF嘉实（12月合约）: GEX Flip位于 4.3000；价格穿越该价位时，波动状态可能切换。
+- 沪深300ETF嘉实（3月合约）: GEX Flip位于 4.2000；价格穿越该价位时，波动状态可能切换。
+- 深证100ETF易方达（11月合约）: GEX Flip位于 2.9000；价格穿越该价位时，波动状态可能切换。
+- 深证100ETF易方达（12月合约）: GEX Flip位于 2.9000；价格穿越该价位时，波动状态可能切换。
+- 深证100ETF易方达（3月合约）: GEX Flip位于 2.6500；价格穿越该价位时，波动状态可能切换。
+- 深证100ETF易方达（6月合约）: GEX Flip位于 2.7500；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF华夏（11月合约）: GEX Flip位于 1.4000；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF华夏（12月合约）: GEX Flip位于 2.5500；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF华夏（3月合约）: GEX Flip位于 1.6500；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF华夏（6月合约）: GEX Flip位于 1.5500；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF易方达（11月合约）: GEX Flip位于 1.3000；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF易方达（12月合约）: GEX Flip位于 2.0500；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF易方达（3月合约）: GEX Flip位于 1.6000；价格穿越该价位时，波动状态可能切换。
+- 科创50ETF易方达（6月合约）: GEX Flip位于 1.5000；价格穿越该价位时，波动状态可能切换。
+- 上证50ETF华夏（11月）: 理论Zero Gamma约为 2.8431，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 上证50ETF华夏（12月）: 理论Zero Gamma约为 2.8366，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 上证50ETF华夏（3月）: 理论Zero Gamma约为 2.7178，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 上证50ETF华夏（6月）: 理论Zero Gamma约为 2.7990，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF南方（11月）: 理论Zero Gamma约为 6.4431，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF南方（12月）: 理论Zero Gamma约为 6.6403，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF南方（3月）: 理论Zero Gamma约为 5.8257，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF南方（6月）: 理论Zero Gamma约为 5.6048，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF嘉实（11月）: 理论Zero Gamma约为 2.4598，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF嘉实（12月）: 理论Zero Gamma约为 2.5349，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF嘉实（3月）: 理论Zero Gamma约为 2.2439，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 中证500ETF嘉实（6月）: 理论Zero Gamma约为 3.2022，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 创业板ETF易方达（11月）: 理论Zero Gamma约为 2.3600，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 创业板ETF易方达（12月）: 理论Zero Gamma约为 2.3259，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 创业板ETF易方达（3月）: 理论Zero Gamma约为 2.1237，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 创业板ETF易方达（6月）: 理论Zero Gamma约为 1.9886，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF华泰柏瑞（11月）: 理论Zero Gamma约为 4.0196，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF华泰柏瑞（12月）: 理论Zero Gamma约为 4.1717，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF华泰柏瑞（3月）: 理论Zero Gamma约为 3.7562，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF华泰柏瑞（6月）: 理论Zero Gamma约为 3.8090，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF嘉实（11月）: 理论Zero Gamma约为 4.2410，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF嘉实（12月）: 理论Zero Gamma约为 4.3252，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF嘉实（3月）: 理论Zero Gamma约为 3.9711，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 沪深300ETF嘉实（6月）: 理论Zero Gamma约为 3.9523，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 深证100ETF易方达（11月）: 理论Zero Gamma约为 2.6520，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 深证100ETF易方达（12月）: 理论Zero Gamma约为 2.6725，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 深证100ETF易方达（3月）: 理论Zero Gamma约为 2.3727，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 深证100ETF易方达（6月）: 理论Zero Gamma约为 2.2962，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF华夏（11月）: 理论Zero Gamma约为 1.2167，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF华夏（12月）: 理论Zero Gamma约为 1.3468，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF华夏（3月）: 理论Zero Gamma约为 1.1543，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF华夏（6月）: 理论Zero Gamma约为 1.3033，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF易方达（11月）: 理论Zero Gamma约为 1.0843，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF易方达（12月）: 理论Zero Gamma约为 1.2764，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF易方达（3月）: 理论Zero Gamma约为 1.0755，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 科创50ETF易方达（6月）: 理论Zero Gamma约为 1.3708，置信度 medium；该估算采用当前IV保持不变的BS重估假设。
+- 当前未检测到可用Expected Move字段；如后续有稳定ATM IV和到期日，可加入距离标准化。
+
+9. 附录：现价位置与关键状态切换
+- 上证50ETF华夏 11月: 现价距离最近关键位 call_wall 约 -0.79%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 上证50ETF华夏 12月: 现价距离最近关键位 gex_flip 约 0.92%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 上证50ETF华夏 3月: 现价距离最近关键位 gex_flip 约 0.92%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 上证50ETF华夏 6月: 现价距离最近关键位 gex_flip 约 0.92%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 中证500ETF南方 11月: 现价距离最近关键位 call_wall 约 1.34%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 中证500ETF南方 12月: 现价距离最近关键位 call_wall 约 -2.42%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 中证500ETF南方 3月: 现价距离最近关键位 gex_flip 约 1.34%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Price Wall与GEX Flip之间。
+- 中证500ETF南方 6月: 现价距离最近关键位 call_wall 约 -2.42%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 中证500ETF嘉实 11月: 现价距离最近关键位 call_wall 约 1.74%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 中证500ETF嘉实 12月: 现价距离最近关键位 price_wall 约 1.74%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 中证500ETF嘉实 3月: 现价距离最近关键位 price_wall 约 1.74%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 中证500ETF嘉实 6月: 现价距离最近关键位 call_wall 约 -3.81%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 创业板ETF易方达 11月: 现价距离最近关键位 put_wall 约 -2.38%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 创业板ETF易方达 12月: 现价距离最近关键位 call_wall 约 1.52%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 创业板ETF易方达 3月: 现价距离最近关键位 price_wall 约 -0.43%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Price Wall与GEX Flip之间。
+- 创业板ETF易方达 6月: 现价距离最近关键位 gex_flip 约 3.48%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Price Wall与GEX Flip之间。
+- 沪深300ETF华泰柏瑞 11月: 现价距离最近关键位 price_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 沪深300ETF华泰柏瑞 12月: 现价距离最近关键位 put_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF华泰柏瑞 3月: 现价距离最近关键位 put_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF华泰柏瑞 6月: 现价距离最近关键位 call_wall 约 0.60%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF嘉实 11月: 现价距离最近关键位 call_wall 约 0.82%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF嘉实 12月: 现价距离最近关键位 call_wall 约 0.82%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF嘉实 3月: 现价距离最近关键位 put_wall 约 -1.47%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 沪深300ETF嘉实 6月: 现价距离最近关键位 put_wall 约 3.12%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 深证100ETF易方达 11月: 现价距离最近关键位 gex_flip 约 0.10%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 深证100ETF易方达 12月: 现价距离最近关键位 gex_flip 约 0.10%，该关键位在现价上方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价低于主要关键位，下一个可参考切换位为GEX Flip。
+- 深证100ETF易方达 3月: 现价距离最近关键位 price_wall 约 3.56%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 深证100ETF易方达 6月: 现价距离最近关键位 price_wall 约 1.83%，该关键位在现价上方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF华夏 11月: 现价距离最近关键位 put_wall 约 -2.99%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF华夏 12月: 现价距离最近关键位 put_wall 约 -2.99%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF华夏 3月: 现价距离最近关键位 put_wall 约 -2.99%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF华夏 6月: 现价距离最近关键位 price_wall 约 -2.99%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF易方达 11月: 现价距离最近关键位 price_wall 约 -0.15%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF易方达 12月: 现价距离最近关键位 put_wall 约 -3.99%，该关键位在现价下方。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 科创50ETF易方达 3月: 现价距离最近关键位 put_wall 约 -0.15%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 现价位于Put Wall与GEX Flip之间。
+- 科创50ETF易方达 6月: 现价距离最近关键位 price_wall 约 -0.15%，该关键位在现价下方。 距离小于 1%，存在墙位吸附或短线争夺的可能。 当前为 Positive Gamma，结构上更倾向于围绕关键位震荡。 位置关系待确认。
+- 如果现价穿越GEX Flip，结构上可能发生波动状态切换；是否有效仍需结合成交和GEX收缩确认。
+
+10. 附录：墙位可信度
+- 主分析月高可信墙位（0个）: 无
+- 全月份高可信墙位（0个，仅供期限附录复核）: 无
+- 低可信墙位: 科创50ETF易方达 12月(0.32)、创业板ETF易方达 12月(0.33)、科创50ETF易方达 6月(0.34)、创业板ETF易方达 3月(0.34)、中证500ETF嘉实 12月(0.36)、科创50ETF华夏 6月(0.36)、中证500ETF嘉实 3月(0.36)、中证500ETF嘉实 3月(0.36)
+- 可信度综合考虑GEX集中度、OI配合、成交确认和数据完整度；低可信墙位更适合作为观察位，而不是强支撑/阻力假设。
+
+11. 附录：分价位结构观察
+- 现价附近GEX最集中的价位: 沪深300ETF华泰柏瑞 11月 4.2(price_wall,max_gamma,gamma_flip)、上证50ETF华夏 11月 2.9(call_wall,put_wall,call_oi_wall,price_wall,max_gamma)、沪深300ETF华泰柏瑞 11月 4.3(call_wall,call_oi_wall)、中证500ETF南方 11月 6.75(call_wall,call_oi_wall,max_gamma)、中证500ETF南方 11月 6.5(put_wall,put_oi_wall,price_wall)、沪深300ETF华泰柏瑞 11月 4.1(put_wall,put_oi_wall)、上证50ETF华夏 11月 2.95(gamma_flip)、上证50ETF华夏 11月 3.0(普通价位)
+- 现价附近OI最集中的价位: 科创50ETF华夏 11月 1.3(put_wall)、科创50ETF华夏 11月 1.35(普通价位)、中证500ETF南方 11月 6.5(put_wall,put_oi_wall,price_wall)、沪深300ETF华泰柏瑞 11月 4.3(call_wall,call_oi_wall)、中证500ETF南方 11月 6.75(call_wall,call_oi_wall,max_gamma)、上证50ETF华夏 11月 2.9(call_wall,put_wall,call_oi_wall,price_wall,max_gamma)、沪深300ETF华泰柏瑞 11月 4.2(price_wall,max_gamma,gamma_flip)、沪深300ETF华泰柏瑞 11月 4.1(put_wall,put_oi_wall)
+- 当GEX、OI、成交在同一strike附近共同集中时，该价位更适合作为关键观察区；若只有单项突出，可靠性需要打折。
+
+12. 附录：方向性结构分布
+- 当前为单日数据，尚未形成区间变化因子，方向性结构评分暂以中性处理。
+- 偏多/偏空只描述结构倾向，不代表确定性预测。
+
+13. 附录：Greek、IV 曲面与结构状态
+- 近月因子覆盖 9 个 ETF；Normalized Net GEX最高为 深证100ETF易方达 11月（0.419），最低为 中证500ETF南方 11月（0.143）。
+- Delta Bias最偏正为 深证100ETF易方达 11月（0.433），最偏负为 中证500ETF南方 11月（0.109）；它描述期权持仓结构方向，不代表真实做市商净头寸。
+- 近月IV独立维度：期限倒挂 5/9；Put侧偏高 8/9；Call侧偏高 0/9。
+- 近月市场状态：正 Gamma 墙位抬升 4个；结构混合或不清晰 3个；Wall 压缩 1个；正 Gamma 关键位约束 1个。
+- Wall生命周期需要至少两个交易日；当前单日结果只表示初始快照，不据此判断稳定或迁移。
+
+14. Wall Lifecycle / 跨日关键价位变化
+- 主分析月统计：上移 14；下移 0；持续稳定 31；新出现 0；历史不足 0。
+- 上证50ETF华夏｜11月｜call_oi_wall｜2.9000 → 2.9000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:2.9 | 2026-11-03:2.9 | 2026-11-04:2.9；近5个有效日稳定 5/5。
+- 上证50ETF华夏｜11月｜call_wall｜2.9000 → 2.9000｜stable_wall｜连续 6 日｜strength_stable；近3日 2026-11-02:2.9 | 2026-11-03:2.9 | 2026-11-04:2.9；近5个有效日稳定 5/5。
+- 上证50ETF华夏｜11月｜price_wall｜2.9000 → 2.9000｜stable_wall｜连续 6 日｜strength_stable；近3日 2026-11-02:2.9 | 2026-11-03:2.9 | 2026-11-04:2.9；近5个有效日稳定 5/5。
+- 上证50ETF华夏｜11月｜put_oi_wall｜2.8500 → 2.8500｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:2.85 | 2026-11-03:2.85 | 2026-11-04:2.85；近5个有效日稳定 5/5。
+- 上证50ETF华夏｜11月｜put_wall｜2.8500 → 2.9000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:2.85 | 2026-11-03:2.85 | 2026-11-04:2.9；近5个有效日稳定 1/5。
+- 中证500ETF南方｜11月｜call_oi_wall｜6.7500 → 6.7500｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:6.75 | 2026-11-03:6.75 | 2026-11-04:6.75；近5个有效日稳定 5/5。
+- 中证500ETF南方｜11月｜call_wall｜6.7500 → 6.7500｜stable_wall｜连续 6 日｜strengthening；近3日 2026-11-02:6.75 | 2026-11-03:6.75 | 2026-11-04:6.75；近5个有效日稳定 5/5。
+- 中证500ETF南方｜11月｜price_wall｜6.5000 → 6.5000｜stable_wall｜连续 2 日｜strength_stable；近3日 2026-11-02:6.75 | 2026-11-03:6.5 | 2026-11-04:6.5；近5个有效日稳定 3/5。
+- 中证500ETF南方｜11月｜put_oi_wall｜5.7500 → 6.5000｜moved_up｜连续 1 日｜strength_unavailable；近3日 2026-11-02:5.75 | 2026-11-03:5.75 | 2026-11-04:6.5；近5个有效日稳定 3/5。
+- 中证500ETF南方｜11月｜put_wall｜6.5000 → 6.5000｜stable_wall｜连续 5 日｜strength_stable；近3日 2026-11-02:6.5 | 2026-11-03:6.5 | 2026-11-04:6.5；近5个有效日稳定 5/5。
+- 中证500ETF嘉实｜11月｜call_oi_wall｜3.1000 → 3.1000｜stable_wall｜连续 3 日｜strength_unavailable；近3日 2026-11-02:3.1 | 2026-11-03:3.1 | 2026-11-04:3.1；近5个有效日稳定 3/5。
+- 中证500ETF嘉实｜11月｜call_wall｜2.6000 → 2.7500｜moved_up｜连续 1 日｜weakening；近3日 2026-11-02:2.65 | 2026-11-03:2.6 | 2026-11-04:2.75；近5个有效日稳定 1/5。
+- 中证500ETF嘉实｜11月｜price_wall｜2.6000 → 2.6000｜stable_wall｜连续 4 日｜weakening；近3日 2026-11-02:2.6 | 2026-11-03:2.6 | 2026-11-04:2.6；近5个有效日稳定 4/5。
+- 中证500ETF嘉实｜11月｜put_oi_wall｜2.4500 → 2.6000｜moved_up｜连续 1 日｜strength_unavailable；近3日 2026-11-02:2.45 | 2026-11-03:2.45 | 2026-11-04:2.6；近5个有效日稳定 2/5。
+- 中证500ETF嘉实｜11月｜put_wall｜2.5500 → 2.6000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:2.55 | 2026-11-03:2.55 | 2026-11-04:2.6；近5个有效日稳定 2/5。
+- 创业板ETF易方达｜11月｜call_oi_wall｜2.8000 → 2.8000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:2.8 | 2026-11-03:2.8 | 2026-11-04:2.8；近5个有效日稳定 5/5。
+- 创业板ETF易方达｜11月｜call_wall｜2.5000 → 2.7000｜moved_up｜连续 1 日｜weakening；近3日 2026-11-02:2.5 | 2026-11-03:2.5 | 2026-11-04:2.7；近5个有效日稳定 3/5。
+- 创业板ETF易方达｜11月｜price_wall｜2.5000 → 2.5000｜stable_wall｜连续 4 日｜strength_stable；近3日 2026-11-02:2.5 | 2026-11-03:2.5 | 2026-11-04:2.5；近5个有效日稳定 4/5。
+- 创业板ETF易方达｜11月｜put_oi_wall｜2.2500 → 2.2500｜stable_wall｜连续 2 日｜strength_unavailable；近3日 2026-11-02:2.5 | 2026-11-03:2.25 | 2026-11-04:2.25；近5个有效日稳定 2/5。
+- 创业板ETF易方达｜11月｜put_wall｜2.5000 → 2.5000｜stable_wall｜连续 3 日｜strength_stable；近3日 2026-11-02:2.5 | 2026-11-03:2.5 | 2026-11-04:2.5；近5个有效日稳定 3/5。
+- 沪深300ETF华泰柏瑞｜11月｜call_oi_wall｜4.2000 → 4.3000｜moved_up｜连续 1 日｜strength_unavailable；近3日 2026-11-02:4.2 | 2026-11-03:4.2 | 2026-11-04:4.3；近5个有效日稳定 2/5。
+- 沪深300ETF华泰柏瑞｜11月｜call_wall｜4.2000 → 4.3000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:4.2 | 2026-11-03:4.2 | 2026-11-04:4.3；近5个有效日稳定 1/5。
+- 沪深300ETF华泰柏瑞｜11月｜price_wall｜4.1000 → 4.2000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:4.1 | 2026-11-03:4.1 | 2026-11-04:4.2；近5个有效日稳定 2/5。
+- 沪深300ETF华泰柏瑞｜11月｜put_oi_wall｜4.1000 → 4.1000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:4.1 | 2026-11-03:4.1 | 2026-11-04:4.1；近5个有效日稳定 5/5。
+- 沪深300ETF华泰柏瑞｜11月｜put_wall｜4.1000 → 4.1000｜stable_wall｜连续 6 日｜strength_stable；近3日 2026-11-02:4.1 | 2026-11-03:4.1 | 2026-11-04:4.1；近5个有效日稳定 5/5。
+- 沪深300ETF嘉实｜11月｜call_oi_wall｜4.5000 → 4.5000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:4.5 | 2026-11-03:4.5 | 2026-11-04:4.5；近5个有效日稳定 5/5。
+- 沪深300ETF嘉实｜11月｜call_wall｜4.4000 → 4.4000｜stable_wall｜连续 6 日｜strengthening；近3日 2026-11-02:4.4 | 2026-11-03:4.4 | 2026-11-04:4.4；近5个有效日稳定 5/5。
+- 沪深300ETF嘉实｜11月｜price_wall｜4.4000 → 4.4000｜stable_wall｜连续 4 日｜strengthening；近3日 2026-11-02:4.4 | 2026-11-03:4.4 | 2026-11-04:4.4；近5个有效日稳定 4/5。
+- 沪深300ETF嘉实｜11月｜put_oi_wall｜4.3000 → 4.3000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:4.3 | 2026-11-03:4.3 | 2026-11-04:4.3；近5个有效日稳定 5/5。
+- 沪深300ETF嘉实｜11月｜put_wall｜4.3000 → 4.3000｜stable_wall｜连续 6 日｜strength_stable；近3日 2026-11-02:4.3 | 2026-11-03:4.3 | 2026-11-04:4.3；近5个有效日稳定 5/5。
+- 深证100ETF易方达｜11月｜call_oi_wall｜3.9000 → 3.9000｜stable_wall｜连续 3 日｜strength_unavailable；近3日 2026-11-02:3.9 | 2026-11-03:3.9 | 2026-11-04:3.9；近5个有效日稳定 3/5。
+- 深证100ETF易方达｜11月｜call_wall｜3.0000 → 3.0000｜stable_wall｜连续 6 日｜strengthening；近3日 2026-11-02:3 | 2026-11-03:3 | 2026-11-04:3；近5个有效日稳定 5/5。
+- 深证100ETF易方达｜11月｜price_wall｜2.8000 → 3.0000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:2.95 | 2026-11-03:2.8 | 2026-11-04:3；近5个有效日稳定 1/5。
+- 深证100ETF易方达｜11月｜put_oi_wall｜2.8000 → 2.8000｜stable_wall｜连续 3 日｜strength_unavailable；近3日 2026-11-02:2.8 | 2026-11-03:2.8 | 2026-11-04:2.8；近5个有效日稳定 3/5。
+- 深证100ETF易方达｜11月｜put_wall｜2.8000 → 2.8000｜stable_wall｜连续 4 日｜weakening；近3日 2026-11-02:2.8 | 2026-11-03:2.8 | 2026-11-04:2.8；近5个有效日稳定 4/5。
+- 科创50ETF华夏｜11月｜call_oi_wall｜1.4000 → 1.4000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:1.4 | 2026-11-03:1.4 | 2026-11-04:1.4；近5个有效日稳定 5/5。
+- 科创50ETF华夏｜11月｜call_wall｜1.4000 → 1.4000｜stable_wall｜连续 6 日｜strengthening；近3日 2026-11-02:1.4 | 2026-11-03:1.4 | 2026-11-04:1.4；近5个有效日稳定 5/5。
+- 科创50ETF华夏｜11月｜price_wall｜1.2500 → 1.4000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:1.3 | 2026-11-03:1.25 | 2026-11-04:1.4；近5个有效日稳定 1/5。
+- 科创50ETF华夏｜11月｜put_oi_wall｜1.1000 → 1.2000｜moved_up｜连续 1 日｜strength_unavailable；近3日 2026-11-02:1.1 | 2026-11-03:1.1 | 2026-11-04:1.2；近5个有效日稳定 1/5。
+- 科创50ETF华夏｜11月｜put_wall｜1.2000 → 1.3000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:1.25 | 2026-11-03:1.2 | 2026-11-04:1.3；近5个有效日稳定 3/5。
+- 科创50ETF易方达｜11月｜call_oi_wall｜1.4000 → 1.4000｜stable_wall｜连续 6 日｜strength_unavailable；近3日 2026-11-02:1.4 | 2026-11-03:1.4 | 2026-11-04:1.4；近5个有效日稳定 5/5。
+- 科创50ETF易方达｜11月｜call_wall｜1.4000 → 1.4000｜stable_wall｜连续 6 日｜strengthening；近3日 2026-11-02:1.4 | 2026-11-03:1.4 | 2026-11-04:1.4；近5个有效日稳定 5/5。
+- 科创50ETF易方达｜11月｜price_wall｜1.2000 → 1.3000｜moved_up｜连续 1 日｜strength_stable；近3日 2026-11-02:1.2 | 2026-11-03:1.2 | 2026-11-04:1.3；近5个有效日稳定 2/5。
+- 科创50ETF易方达｜11月｜put_oi_wall｜1.2000 → 1.2000｜stable_wall｜连续 3 日｜strength_unavailable；近3日 2026-11-02:1.2 | 2026-11-03:1.2 | 2026-11-04:1.2；近5个有效日稳定 3/5。
+- 科创50ETF易方达｜11月｜put_wall｜1.2000 → 1.2000｜stable_wall｜连续 4 日｜weakening；近3日 2026-11-02:1.2 | 2026-11-03:1.2 | 2026-11-04:1.2；近5个有效日稳定 4/5。
+- 价格穿越事件：
+  上证50ETF华夏｜call_oi_wall｜Wall 2.9000｜below_wall → above_wall｜price_crossed_above_wall。
+  上证50ETF华夏｜call_wall｜Wall 2.9000｜below_wall → above_wall｜price_crossed_above_wall。
+  上证50ETF华夏｜price_wall｜Wall 2.9000｜below_wall → above_wall｜price_crossed_above_wall。
+  沪深300ETF华泰柏瑞｜put_oi_wall｜Wall 4.1000｜below_wall → above_wall｜price_crossed_above_wall。
+  沪深300ETF华泰柏瑞｜put_wall｜Wall 4.1000｜below_wall → above_wall｜price_crossed_above_wall。
+  中证500ETF南方｜price_wall｜Wall 6.5000｜below_wall → above_wall｜price_crossed_above_wall。
+  中证500ETF南方｜put_wall｜Wall 6.5000｜below_wall → above_wall｜price_crossed_above_wall。
+  科创50ETF易方达｜put_oi_wall｜Wall 1.2000｜below_wall → above_wall｜price_crossed_above_wall。
+  科创50ETF易方达｜put_wall｜Wall 1.2000｜below_wall → above_wall｜price_crossed_above_wall。
+  深证100ETF易方达｜put_oi_wall｜Wall 2.8000｜below_wall → above_wall｜price_crossed_above_wall。
+  深证100ETF易方达｜put_wall｜Wall 2.8000｜below_wall → above_wall｜price_crossed_above_wall。
+  创业板ETF易方达｜price_wall｜Wall 2.5000｜below_wall → above_wall｜price_crossed_above_wall。
+  创业板ETF易方达｜put_wall｜Wall 2.5000｜below_wall → above_wall｜price_crossed_above_wall。
+  沪深300ETF嘉实｜put_oi_wall｜Wall 4.3000｜below_wall → above_wall｜price_crossed_above_wall。
+  沪深300ETF嘉实｜put_wall｜Wall 4.3000｜below_wall → above_wall｜price_crossed_above_wall。
+  中证500ETF嘉实｜price_wall｜Wall 2.6000｜below_wall → above_wall｜price_crossed_above_wall。
+- Wall迁移只表示关键集中价位改变；价格穿越只表示现价跨过未移动Wall，两者均不自动解释为机构方向。
+
+15. 策略环境观察（类别级，不构成交易建议）
+- 上证50ETF华夏（11月）：结构条件不完整，优先观察有限风险保护或等待价格触发，不生成唯一策略结论；Put侧保护成本可能偏高；Wall生命周期 stable_wall；IV曲面 put_skew_elevated。
+- 中证500ETF南方（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Wall生命周期 stable_wall；IV曲面 front_iv_inversion。
+- 中证500ETF嘉实（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Put侧保护成本可能偏高；Wall生命周期 stable_wall；IV曲面 put_skew_elevated。
+- 创业板ETF易方达（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Wall生命周期 stable_wall；IV曲面 front_iv_inversion。
+- 沪深300ETF华泰柏瑞（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Put侧保护成本可能偏高；Wall生命周期 migrating_wall；IV曲面 put_skew_elevated。
+- 沪深300ETF嘉实（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Put侧保护成本可能偏高；Wall生命周期 stable_wall；IV曲面 put_skew_elevated。
+- 深证100ETF易方达（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Wall生命周期 migrating_wall；IV曲面 front_iv_inversion。
+- 科创50ETF华夏（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Wall生命周期 migrating_wall；IV曲面 front_iv_inversion。
+- 科创50ETF易方达（11月）：可比较备兑Call、现金担保Put与Collar；Iron Condor仅为区间候选，仍需确认IV定价；Wall生命周期 migrating_wall；IV曲面 front_iv_inversion。
+- 上述内容只说明结构适配类别；具体组合、资金需求和最大损失请在ETF策略对比器中以有效报价计算。
+
+16. 风险提示与失效条件
+- 部分price_wall_distance绝对值小于1%，价格可能受到墙位吸附或争夺。
+- 如果price_wall反向移动、net_gex收缩、gamma_regime转为Negative Gamma，原有结构判断可能失效。
+- 本报告仅为期权结构分析，不构成交易建议。
